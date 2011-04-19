@@ -1,0 +1,10 @@
+andoc
+
+a collaborative web tool to enrich content.
+
+the current python/js code is a simple prototype using CherryPy, pickle, lxml and simplejson.
+
+$ easy_install lxml simplejson cherrypy
+$ python andoc.py
+$ open "http://localhost:8080"
+
