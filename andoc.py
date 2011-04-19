@@ -1,17 +1,15 @@
-import cherrypy
-from selection import TextSelection
-from doc import Document
-import simplejson, lxml, os, pickle
+import cherrypy, simplejson, lxml, os, pickle, re, string
 from lxml.html import builder as b
 from urlparse import urlsplit
-import re, string
+
+from doc import Document
+from selection import TextSelection
 from htmltmpl import *
 
 CURDIR = os.path.dirname(os.path.abspath(__file__))
 STATICDIR = CURDIR + "/static/"
 SELECTIONFILE = CURDIR + "/selections"
 TRIPLEFILE = CURDIR + "/triples"
-DOCS = CURDIR
 
 NAMESPACE = { 'http://www.w3.org/1999/xhtml/#h1':  'h1', 
               'http://www.w3.org/1999/xhtml/#h2':  'h2',
