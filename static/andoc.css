@@ -1,0 +1,275 @@
+body { 
+    background: black url('back.png') top center no-repeat;
+    color: white;
+    margin: 0; padding: 0;
+    font-family: Verdana; 
+}
+
+
+#wrapper { margin: 0; padding: 0; min-width: 800px; }
+#menu { 
+    position: absolute; 
+    top: 95px;
+    height: 30px;
+    padding: 10px 0 0 0;
+    margin: 0;
+    left: 3%;
+    border-left:1px solid #666;
+    border-right:1px solid #666;
+    border-top:1px solid #666;
+    border-top-left-radius: 1em;
+    border-top-right-radius: 1em;
+    background-color: rgba(255, 255, 255, 0.2);
+    -webkit-box-shadow: inset 10px 10px 15px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: inset 10px 10px 15px rgba(0, 0, 0, 0.7);
+}
+
+#menu ul, #menu ul li { display: inline; padding: 0; margin: 0; }
+#menu a { color: white; text-decoration: none; padding: 1em;}
+#menu a:hover { text-shadow: rgba(255, 255, 255, 0.9) 0 0 10px ; }
+#menu .active a { font-weight: bold; }
+
+#search {
+    position: absolute; 
+    top: 40px;
+    right: 2%;
+}
+#search input, #search button { 
+    color: white; 
+    background-color: rgba(0,0,0, 0.2);
+}
+#search input { 
+    border: 1px solid #666;
+    border-top-left-radius: .8em;
+    border-bottom-left-radius: .8em;
+    width: 200px; 
+    height: 25px; 
+}
+
+#search input:focus {
+    background-color: black;
+}
+
+#search button {
+    border: 1px solid #666;
+    border-top-right-radius: .8em;
+    border-bottom-right-radius: .8em;
+    height: 25px;
+    padding: 0 1em;
+}
+#search button:hover { 
+    text-shadow: rgba(255, 255, 255, 0.9) 0 0 10px ; 
+    background-color: rgba(0,0,0, 0.5);
+    border: 1px solid white;
+}
+
+#explore { 
+    position: absolute; 
+    top: 30px;
+    height: 30px;
+    padding: 12px 0 0 3%;
+    margin: 0;
+    width: 96%;
+    border-top: 1px solid #666;
+    border-bottom: 1px solid #666;
+    border-right: 1px solid #666;
+    border-left: none;
+    border-top-right-radius: .8em;
+    border-bottom-right-radius: .8em;
+    background-color: rgba(255, 255, 255, 0.2);
+    -webkit-box-shadow: inset 10px 10px 15px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: inset 10px 10px 15px rgba(0, 0, 0, 0.7);
+}
+
+#explore ul, #explore ul li { display: inline; padding: 0; margin: 0; }
+#explore a { color: white; text-decoration: none; padding: 1em;}
+#explore a:hover { text-shadow: rgba(255, 255, 255, 0.9) 0 0 10px ; }
+
+#explore .active a { font-weight: bold; }
+
+#head div { display: none; } 
+#head { height: 150px; margin: 0; padding: 0; }
+#head h3 { font-size: 1.3em; padding: 1em; } 
+
+#content, #raw, #struc {
+    position: absolute;
+    top: 135px;
+    left: 1%;
+    margin: 0 0 1em 0; 
+    padding: 0;
+    color: black;
+    border:1px solid #999;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 1em;
+    -webkit-box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+}
+
+#content { width: 60%; }
+#raw { width: 85%; }
+#struc { width: 85%; }
+#hlaction {  
+    position: absolute; 
+    z-index: 99;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    width: 1em;
+}
+
+#index, #events { 
+    position: absolute;
+    top: 130px;
+    left: 0;
+    margin: 0 0 1em 0; 
+    padding: 1%;
+    color: white;
+    border-top: 1px solid #666;
+    border-bottom: 1px solid #666;
+    border-right: 1px solid #666;
+    border-left: none;
+    border-top-right-radius: .8em;
+    border-bottom-right-radius: .8em;
+    background-color: rgba(255, 255, 255, 0.1);
+    -webkit-box-shadow: inset 10px 10px 15px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: inset 10px 10px 15px rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+    width: 97%; 
+}
+
+#events .event {
+    display: block;
+    float: left;
+    width: 30%;
+    min-width: 200px;
+    margin: 1em 2em 2em 0;
+}
+
+#meta { 
+    position: absolute;
+    top: 155px;
+    left: 63%;
+    width: 33%; 
+    padding: 1%;
+    border-top:1px solid #666;
+    border-right:1px solid #666;
+    border-bottom:1px solid #666;
+    border-left:1px solid #666;
+    border-top-right-radius: 1em;
+    border-bottom-right-radius: 1em;
+    background-color: rgba(255, 255, 255, 0.1);
+    -webkit-box-shadow: inset 10px 10px 15px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: inset 10px 10px 15px rgba(0, 0, 0, 0.7);
+}
+
+.docview #meta {
+    left: 61%;
+    width: 36%; 
+}
+
+#actions { 
+    position: fixed;
+    top: 155px;
+    left: 86%;
+    width: 11%; 
+    min-width: 130px;
+    padding: 1%;
+    border-top:1px solid #666;
+    border-right:1px solid #666;
+    border-bottom:1px solid #666;
+    border-left: 1px solid transparent;
+    border-top-right-radius: 1em;
+    border-bottom-right-radius: 1em;
+    background-color: rgba(255, 255, 255, 0.2);
+    -webkit-box-shadow: inset 10px 10px 15px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: inset 10px 10px 15px rgba(0, 0, 0, 0.7);
+}
+
+#actions button {
+    font-size: 1em;
+    display: block;
+    border: none;
+    margin: 1em 0;
+    padding: 0;
+    min-width: 90%;
+    text-align: left;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+}
+
+#actions button:hover { text-shadow: rgba(255, 255, 255, 0.9) 0 0 10px ; }
+
+#actions p { font-size: 0.8em; }
+#actions h3 { padding: 0; margin: 0; }
+
+
+#content h1, #content h2, #content h3, #content h4 { padding: 0em 0.5em; }
+
+#content p, #content li, #struc p, #struc li, #struc div div { 
+    font-size: 1.2em; 
+    font-family: monospace; 
+    padding: 1.0em; 
+    margin: 0.6em; 
+    background-color: transparent; 
+    line-height: 1.5em; 
+}
+#struc pre, #content pre { display: none; } 
+
+#struc h1, #struc h2, #struc h3, #struc h4 { padding: 0em 0.5em;}
+
+#struc span { color: black; border-bottom: 3px solid yellow; }
+#struc span:hover { background-color: yellow; color: black; }
+#struc span:before { content:''; color: yellow; }
+#struc span:after { content:''; color: yellow; }
+
+#content p:hover { background-color: #777;  border-radius: 1em; }
+#content p:hover .person { border-bottom: 1px solid yellow; }
+#content p:hover .place  { border-bottom: 1px solid green; }
+#content p:hover .event  { border-bottom: 2px solid lightblue; }
+#content p .person:hover { background-color: yellow; }
+#content p .person:before { content:'<'; color: yellow; }
+#content p .person:after { content:'>'; color: yellow; }
+#content p .place:hover  { background-color: green; }
+#content p .place:before { content:'<'; color: green; }
+#content p .place:after { content:'>'; color: green; }
+#content p .event:hover  { background-color: lightblue; }
+#content p .event:before { content:'<'; color: lightblue; }
+#content p .event:after { content:'>'; color: lightblue; }
+
+
+#meta h4, #meta h2, #meta h5 { margin: 0; }
+#meta ul { 
+    list-style-type: none; 
+    margin-left: 0px;
+    padding-left: 10px;
+}
+
+#meta h3.person { color: yellow; }
+#meta h3.event { color: lightblue; }
+#meta h3.place { color: green; }
+
+#raw pre { margin: 1em 0 0 1em; line-height: 1.5em; max-width: 600px; overflow: hidden; }
+#raw #doc { color: black; }
+#raw table { margin: 1em; }
+#raw th { color: black; }
+#raw #hldoc span { background-color: yellow; color: black; }
+#raw #hldoc { color: gray; } 
+#raw #hldoc span.marked { background-color: #cc0000; color: white; }
+
+#raw pre::selection, 
+#raw pre::-moz-selection, 
+#raw pre::-webkit-selection,
+#struc ::selection, 
+#struc ::-moz-selection, 
+#struc ::-webkit-selection
+{
+    background:#cc0000;  
+    color:#fff;
+}
+
+#index h1, #index h2, #index h3 #index h4, 
+#events h1, #events h2, #events h3, #events h4 {
+    font-size: 1em; padding: 0; margin: .5em 0;
+}
