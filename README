@@ -6,5 +6,5 @@ the current python/js code is a simple prototype using CherryPy, pickle, lxml an
 
 $ easy_install lxml simplejson cherrypy
 $ python andoc.py
-$ open "http://localhost:8080"
+$ open 'http://localhost:8080'
 
