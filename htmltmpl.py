@@ -232,3 +232,35 @@ HTML_BODY_EVENT_LIST = """
 </body>
 </html>
 """
+
+HTML_DOC_LIST = """
+    <div id="wrapper">
+        <div id="explore">
+            <ul>
+                <li><a href="/">Index</a></li>
+                <li class="active"><a href="/doc/list">Documents</a></li>
+                <li><a href="/event/list">Events</a></li>
+                <li><a href="/place/list">Places</a></li>
+                <li><a href="/person/list">Persons</a></li>
+                <li><a href="/date/list">Dates</a></li>
+            </ul>
+        </div>
+        <div id="search">
+            <form method="GET" action="/search">
+                <input type="text" name="query" value="" />
+                <button>Search</button>
+            </form>
+        </div>
+        <div id="index">
+            <ul>
+                <li><a href="/doc/view/1">1</a></li>
+                <li><a href="/doc/view/2">2</a></li>
+                <li><a href="/doc/view/3">3</a></li>   
+                <li><a href="/doc/view/4">4</a></li>   
+                <li><a href="/doc/view/5">5</a></li>   
+                <li><a href="/doc/view/6">6</a></li>   
+                <li><a href="/doc/view/7">7</a></li>   
+            </ul>
+        </div>
+    </div>
+"""
