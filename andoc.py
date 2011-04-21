@@ -163,18 +163,13 @@ class Andoc(object):
 
     def doc(self, action='', id=None):
         if action == 'list' and id is None:
-            return HTML_HEAD + """ 
-        <ul>
-            <li><a href="/doc/view/1">1</a></li>
-            <li><a href="/doc/view/2">2</a></li>
-            <li><a href="/doc/view/3">3</a></li>   
-        </ul>
-"""
+            return HTML_HEAD + HTML_DOC_LIST
 
         d = Document(id)
         if d.content:
             if action == 'raw':
-                return HTML_HEAD + HTML_BODY_RAW % (d.id, d.id, d.id, d.content, d.content)
+                return HTML_HEAD + HTML_BODY_RAW % (d.id, d.id, d.id, 
+                                                    d.content, d.content)
 
             elif action == 'struc':
                 elements = self._render(id)
