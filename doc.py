@@ -1,11 +1,8 @@
 class Document(object):
-    def __init__(self, id):
-        self.id = id
-        if int(id) == 1:
-            self.content = open('data/1.txt','r').read()
-        elif int(id) == 2:
-            self.content = open('data/2.txt','r').read()
-        elif int(id) == 3:
-            self.content = open('data/3.txt','r').read()
+    def __init__(self, id = 0):
+        self.id = int(id)
+        if self.id > 0:
+            filename = 'data/%s.txt' % str(self.id)
+            self.content = open(filename,'r').read()
         else:
             self.content = False
