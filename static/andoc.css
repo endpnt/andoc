@@ -5,6 +5,9 @@ body {
     font-family: Verdana; 
 }
 
+a { color: white; }
+a:visited { color: gray; } 
+
 
 #wrapper { margin: 0; padding: 0; min-width: 800px; }
 #menu { 
