@@ -1,4 +1,3 @@
-var triples = [];
 var docid = document.URL.split('/')[5];
 var backuphldoc;
 var backupstruc;
@@ -19,7 +18,7 @@ $(document).ready(function() {
 
     $("#selections").click(function() { alert( selections ) } );
 
-    $("#person").click(function() { sendTriple('foaf:person'); });
+    $("#person").click(function() { sendTriple('person'); });
     $("#place").click(function() { sendTriple('place'); });
     $("#event").click(function() { sendTriple('event'); });
     $("#date").click(function() { sendTriple('date'); });
@@ -196,7 +195,7 @@ function drawTriples(triples) {
         for (var i = 0; i < triples.length; i++) {
             var triple = triples[i];
             var n = getNodeFromPath(triple.s);
-            var triclass = "triple t" + triple.start + "e" + triple.end;
+            var triclass = "triple t" + triple.start + "e" + triple.end + " " + triple.p;
             markSelection(n, triple.start, triple.end, triclass);
         }
     }
