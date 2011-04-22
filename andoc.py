@@ -74,9 +74,9 @@ class Andoc(object):
             htmlelem = m.group(1)
             start = int(m.group(2))
             end = int(m.group(3))
-            for c in self._selections:
-                if c.id == id and c.start == start and c.end == end:
-                    return c
+            for sel in self._selections:
+                if sel.docid == id and sel.start == start and sel.end == end:
+                    return sel
         return False
 
 
@@ -101,14 +101,16 @@ class Andoc(object):
     @cherrypy.tools.jsonify()
     def selection(self,action,id):
         d = Document(id)
-        if not d:
+        if not d.content:
             return "No such document"
 
         if action == 'list':
             subselections = []
+            print self._selections
             for sel in self._selections:
-                if sel.id == d.id:
+                if sel.docid == d.id:
                     subselections.append((sel.start, sel.end, sel.ref))
+            print sorted(subselections, reverse=True)
             return sorted(subselections, reverse=True)
 
         elif action == 'add':
@@ -123,7 +125,7 @@ class Andoc(object):
             if len(d.content[start:end+1].strip()) == 0:
                 return "Empty string selected"
 
-            txtsel = TextSelection(id, start, end+1, ref)
+            txtsel = TextSelection(d.id, start, end+1, ref)
             self._selections.append(txtsel)
             
             return d.content[start:end+1]
@@ -147,11 +149,15 @@ class Andoc(object):
 
     @cherrypy.tools.jsonify()
     def triples(self,action,id):
+        d = Document(id)
+        if not d.content:
+            return "No such document"
+
         if action == 'list':
             tl = set()
             for t in self._triples:
-                c, sub, pre, obj, start, end = t
-                if c.id == id:
+                sel, sub, pre, obj, start, end = t
+                if sel.docid == d.id:
                     tl.add((sub, start, end, pre, obj))
 
             print sorted(tl, reverse=True)
@@ -166,60 +172,63 @@ class Andoc(object):
             return HTML_HEAD + HTML_DOC_LIST
 
         d = Document(id)
-        if d.content:
-            if action == 'raw':
-                return HTML_HEAD + HTML_BODY_RAW % (d.id, d.id, d.id, 
-                                                    d.content, d.content)
-
-            elif action == 'struc':
-                elements = self._render(id)
-                if elements:
-                    html = []
-                    for start, end, c in elements:
-                        if len(d.content[start:end].strip()) > 0:
-                            cclass = b.CLASS('s' + str(start) + 'e' + str(end))
-                            if c is not None and c.id == id:
-                                node = b.E(NAMESPACE[c.ref], cclass)
-                                node.text = d.content[start:end].strip()
-                                html.append(node)
-                            else:
-                                html.append(b.PRE(d.content[start:end].strip(), cclass))
-
-                    return HTML_HEAD + HTML_BODY_STRUC % (d.id, d.id, d.id, lxml.html.tostring(b.DIV(*html)))
-                else:
-                    return HTML_HEAD + HTML_BODY_STRUC % (d.id, d.id, d.id, 'Nothing here jet')
-
-            elif action == 'view':
-                elements = self._render(id)
-                if elements:
-                    content_html = []
-                    meta_html = []
-                    for start, end, c in elements:
-                        if len(d.content[start:end].strip()) > 0:
-                            if c is not None and c.id == id:
-                                node = b.E(NAMESPACE[c.ref])
-                                node.text = d.content[start:end].strip()
-                                content_html.append(node)
-                            else:
-                                content_html.append(b.PRE(d.content[start:end].strip()))
-
-                    for c, sub, pre, obj, start, end in self._triples:
-                        if c is not None and c.id == id:
-                            if len(d.content[c.start+start:c.start+end]) > 0:
-                                node = b.P()
-                                node.text = d.content[c.start+start:c.start+end]
-                                meta_html.append(node)
-
-                    content = lxml.html.tostring(b.DIV(*content_html))
-                    meta = lxml.html.tostring(b.DIV(*meta_html))
-
-                    return HTML_HEAD + HTML_BODY_VIEW % (d.id, d.id, d.id, content, meta)
-                else:
-                    return HTML_HEAD + HTML_BODY_VIEW % (d.id, d.id, d.id, 'Nothing to render','')
-            else:
-                return "Unknown action"
-        else:
+        if not d.content:
             return "No such document"
+
+        if action == 'raw':
+            return HTML_HEAD + HTML_BODY_RAW % (d.id, d.id, d.id, 
+                                                d.content, d.content)
+
+        elif action == 'struc':
+            elements = self._render(d.id)
+            if elements:
+                html = []
+                for start, end, sel in elements:
+                    if len(d.content[start:end].strip()) > 0:
+                        cclass = b.CLASS('s' + str(start) + 'e' + str(end))
+                        if sel is not None and sel.docid == d.id:
+                            node = b.E(NAMESPACE[sel.ref], cclass)
+                            node.text = d.content[start:end]
+                            html.append(node)
+                        else:
+                            html.append(b.PRE(d.content[start:end], cclass))
+
+                return HTML_HEAD + HTML_BODY_STRUC % (d.id, d.id, d.id, lxml.html.tostring(b.DIV(*html)))
+            else:
+                return HTML_HEAD + HTML_BODY_STRUC % (d.id, d.id, d.id, 'Nothing here jet')
+
+        elif action == 'view':
+            elements = self._render(d.id)
+            if elements:
+                content_html = []
+                meta_html = []
+                for start, end, sel in elements:
+                    if len(d.content[start:end]) > 0:
+                        if sel is not None and sel.docid == d.id:
+                            node = b.E(NAMESPACE[sel.ref])
+                            node.text = d.content[start:end].strip()
+                            content_html.append(node)
+                        else:
+                            content_html.append(b.PRE(d.content[start:end].strip()))
+
+                for sel, sub, pre, obj, start, end in self._triples:
+                    if sel is not None and sel.docid == d.id:
+                        s = sel.start + start
+                        e = sel.start + end 
+                        if len(d.content[s:e]) > 0:
+                            node = b.P()
+                            node.text = d.content[s:e]
+                            meta_html.append(node)
+                        del s,e
+
+                content = lxml.html.tostring(b.DIV(*content_html))
+                meta = lxml.html.tostring(b.DIV(*meta_html))
+
+                return HTML_HEAD + HTML_BODY_VIEW % (d.id, d.id, d.id, content, meta)
+            else:
+                return HTML_HEAD + HTML_BODY_VIEW % (d.id, d.id, d.id, 'Nothing to render','')
+        else:
+            return "Unknown action"
 
     doc.exposed = True
 
@@ -228,7 +237,7 @@ class Andoc(object):
             return "No such document"
 
         d = Document(id)
-        if d == False:
+        if not d.content:
             return "No such document"
 
         j = self.get_json()
@@ -239,12 +248,12 @@ class Andoc(object):
         end = j.get('end',0)
         
         print sub, pre, obj, start, end
-        c = self._selection_by_url(id, sub)
+        sel = self._selection_by_url(d.id, sub)
 
-        t = (c, sub, pre, obj, start, end)
+        t = (sel, sub, pre, obj, start, end)
         self._triples.append(t)
-        s = c.start + start
-        e = c.start + end
+        s = sel.start + start
+        e = sel.start + end
         return d.content[s:e]
 
     triple.exposed = True
@@ -256,13 +265,13 @@ class Andoc(object):
 
     def _render(self, id):
         d = Document(id)
-        if d == False:
+        if not d.content:
             return False
 
         selections = []
-        for c in self._selections:
-            if c.id == id:
-                t = (c.start, c.end, c)
+        for sel in self._selections:
+            if sel.docid == d.id:
+                t = (sel.start, sel.end, sel)
                 selections.append(t)
 
         if len(selections) == 0:
@@ -276,7 +285,7 @@ class Andoc(object):
         # if they overlap, remove
         removed = []
         last = set()
-        for index, (start, end, c) in enumerate(selections):
+        for index, (start, end, sel) in enumerate(selections):
             current = set(range(start,end))
             intersec = last.intersection(current)
             if intersec != current and len(intersec) > 0:
@@ -289,7 +298,7 @@ class Andoc(object):
         everything = set(range(0,max)) 
     
         # every char position of all selected ranges
-        for start, end, c in selections:
+        for start, end, sel in selections:
             matched = matched.union(set(range(start,end)))
 
         # positions of all unmatched chars

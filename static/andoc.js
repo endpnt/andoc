@@ -46,6 +46,8 @@ function markSelection(node, start, end, selclass) {
     span.appendChild(document.createTextNode(range.toString()));
     range.deleteContents();
     range.insertNode(span);
+    console.log("marked selection");
+    console.log(span);
 }
 
 function drawSelections(selections) {
@@ -56,7 +58,8 @@ function drawSelections(selections) {
     var newhl = backuphldoc.cloneNode(true);
     hlparent.removeChild(hldoc);
     hlparent.appendChild(newhl);
-    console.log('reset');
+    console.log('hl reset');
+    console.log(newhl);
 
     if (newhl !== null) {
         for (var i = 0 ; i < selections.length; i++) {
@@ -83,6 +86,7 @@ function drawSelections(selections) {
 
 function loadTextSelections(id) {
     $.getJSON('/selection/list/' + id, function(data) {
+        console.log(data);
         var selections = [];
         $.each(data, function(key, value) {
             var text_selection = new Object();
@@ -91,6 +95,8 @@ function loadTextSelections(id) {
             text_selection.ref = value[2];
             selections.push(text_selection);
         });
+        console.log("loaded selections");
+        console.log(selections);
         drawSelections(selections);
     });
 }
@@ -99,7 +105,9 @@ function loadTextSelections(id) {
 function sendSelection(type) {
     var selection = window.getSelection();
     var range = selection.getRangeAt(0);
-    var data0 = {start: range.startOffset, end: range.endOffset, ref: "http://www.w3.org/1999/xhtml/#" + type};
+    var data0 = { start: range.startOffset, 
+                  end: range.endOffset, 
+                  ref: "http://www.w3.org/1999/xhtml/#" + type };
     $.ajax({
         type: 'POST',
         url: "/selection/add/" + docid,
@@ -108,6 +116,7 @@ function sendSelection(type) {
         dataType: "json",
         data: JSON.stringify(data0),
         success: function(data) { 
+            console.log(data);
             loadTextSelections(docid);
         }
     });
