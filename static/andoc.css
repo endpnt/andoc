@@ -215,7 +215,6 @@ a:visited { color: gray; }
 
 #content p, #content li, #struc p, #struc li, #struc div div { 
     font-size: 1.2em; 
-    font-family: monospace; 
     padding: 1.0em; 
     margin: 0.6em; 
     background-color: transparent; 
