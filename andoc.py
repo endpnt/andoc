@@ -98,6 +98,60 @@ class Andoc(object):
 
     event.exposed = True
 
+    def person(self, action):
+        if action == 'list':
+            html = []
+            persons = set()
+            for t in self._triples:
+                sel, sub, pre, obj, start, end = t
+                if pre == "person":
+                    persons.add(obj)
+
+            for p in sorted(persons):
+                node = b.LI(p)
+                html.append(node)
+
+            return HTML_HEAD + HTML_PERSON_LIST % lxml.html.tostring(b.UL(*html))
+        else:
+            return ""
+    person.exposed = True
+
+    def place(self, action):
+        if action == 'list':
+            html = []
+            places = set()
+            for t in self._triples:
+                sel, sub, pre, obj, start, end = t
+                if pre == "place":
+                    places.add(obj)
+
+            for p in sorted(places):
+                node = b.LI(p)
+                html.append(node)
+
+            return HTML_HEAD + HTML_PLACE_LIST % lxml.html.tostring(b.UL(*html))
+        else:
+            return ""
+    place.exposed = True
+
+    def date(self, action):
+        if action == 'list':
+            html = []
+            dates = set()
+            for t in self._triples:
+                sel, sub, pre, obj, start, end = t
+                if pre == "date":
+                    dates.add(obj)
+
+            for p in sorted(dates):
+                node = b.LI(p)
+                html.append(node)
+
+            return HTML_HEAD + HTML_DATE_LIST % lxml.html.tostring(b.UL(*html))
+        else:
+            return ""
+    date.exposed = True
+
     @cherrypy.tools.jsonify()
     def selection(self,action,id):
         d = Document(id)

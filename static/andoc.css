@@ -121,7 +121,7 @@ a:visited { color: gray; }
     width: 1em;
 }
 
-#index, #events { 
+#index, #events, #personlist, #placelist, #datelist { 
     position: absolute;
     top: 130px;
     left: 0;
@@ -285,3 +285,12 @@ a:visited { color: gray; }
 #events h1, #events h2, #events h3, #events h4 {
     font-size: 1em; padding: 0; margin: .5em 0;
 }
+
+#personlist ul li, #placelist ul li, #datelist ul li {
+    float: left;
+    display: block;
+    margin: 0 0.5em 0.5em 0;
+    min-width: 200px;
+}
+
+

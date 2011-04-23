@@ -264,3 +264,85 @@ HTML_DOC_LIST = """
         </div>
     </div>
 """
+
+HTML_PERSON_LIST = """
+<body>
+    <div id="wrapper">
+        <div id="explore">
+            <ul>
+                <li><a href="/">Index</a></li>
+                <li><a href="/doc/list">Documents</a></li>
+                <li><a href="/event/list">Events</a></li>
+                <li><a href="/place/list">Places</a></li>
+                <li class="active"><a href="/person/list">Persons</a></li>
+                <li><a href="/date/list">Dates</a></li>
+            </ul>
+        </div>
+        <div id="search">
+            <form method="GET" action="/search">
+                <input type="text" name="query" value="" />
+                <button>Search</button>
+            </form>
+        </div>
+    </div>
+    <div id="personlist">
+        %s
+    </div>
+</body>
+</html>
+"""
+
+HTML_PLACE_LIST = """
+<body>
+    <div id="wrapper">
+        <div id="explore">
+            <ul>
+                <li><a href="/">Index</a></li>
+                <li><a href="/doc/list">Documents</a></li>
+                <li><a href="/event/list">Events</a></li>
+                <li class="active"><a href="/place/list">Places</a></li>
+                <li><a href="/person/list">Persons</a></li>
+                <li><a href="/date/list">Dates</a></li>
+            </ul>
+        </div>
+        <div id="search">
+            <form method="GET" action="/search">
+                <input type="text" name="query" value="" />
+                <button>Search</button>
+            </form>
+        </div>
+    </div>
+    <div id="placelist">
+        %s
+    </div>
+</body>
+</html>
+"""
+
+HTML_DATE_LIST = """
+<body>
+    <div id="wrapper">
+        <div id="explore">
+            <ul>
+                <li><a href="/">Index</a></li>
+                <li><a href="/doc/list">Documents</a></li>
+                <li><a href="/event/list">Events</a></li>
+                <li><a href="/place/list">Places</a></li>
+                <li><a href="/person/list">Persons</a></li>
+                <li class="active"><a href="/date/list">Dates</a></li>
+            </ul>
+        </div>
+        <div id="search">
+            <form method="GET" action="/search">
+                <input type="text" name="query" value="" />
+                <button>Search</button>
+            </form>
+        </div>
+    </div>
+    <div id="datelist">
+        %s
+    </div>
+</body>
+</html>
+"""
+
