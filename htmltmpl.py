@@ -183,7 +183,7 @@ HTML_BODY_EVENT_LIST = """
                 <li class="active"><a href="/event/list">Events</a></li>
                 <li><a href="/place/list">Places</a></li>
                 <li><a href="/person/list">Persons</a></li>
-                <li><a href="/date/list">Timeline</a></li>
+                <li><a href="/date/list">Dates</a></li>
             </ul>
         </div>
         <div id="search">
