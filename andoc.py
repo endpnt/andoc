@@ -66,7 +66,7 @@ class Andoc(object):
             cfo.close()
             tfo.close()
 
-    # helper function to read url string and return selection object
+    #helper function to read url string and return selection object
     def _selection_by_url(self, id, url):
         scheme, host, path, query, param = urlsplit(url)
         m = re.search(self._re_class, param)
@@ -106,9 +106,9 @@ class Andoc(object):
                 sel, sub, pre, obj, start, end = t
                 if pre == "person":
                     persons.add(obj)
-
+            
             for p in sorted(persons):
-                node = b.LI(p)
+                node = b.LI( b.A({'href': ''}, p) )
                 html.append(node)
 
             return HTML_HEAD + HTML_PERSON_LIST % lxml.html.tostring(b.UL(*html))
@@ -247,15 +247,18 @@ class Andoc(object):
                         else:
                             html.append(b.PRE(d.content[start:end], cclass))
 
-                return HTML_HEAD + HTML_BODY_STRUC % (d.id, d.id, d.id, lxml.html.tostring(b.DIV(*html)))
+                return HTML_HEAD + HTML_BODY_STRUC % (
+                        d.id, d.id, d.id, lxml.html.tostring(b.DIV(*html)))
             else:
-                return HTML_HEAD + HTML_BODY_STRUC % (d.id, d.id, d.id, 'Nothing here jet')
+                return HTML_HEAD + HTML_BODY_STRUC % (
+                        d.id, d.id, d.id, 'Nothing here jet')
 
         elif action == 'view':
             elements = self._render(d.id)
             if elements:
                 content_html = []
                 meta_html = []
+                metalist = {}
                 for start, end, sel in elements:
                     if len(d.content[start:end]) > 0:
                         if sel is not None and sel.docid == d.id:
@@ -265,15 +268,19 @@ class Andoc(object):
                         else:
                             content_html.append(b.PRE(d.content[start:end].strip()))
 
+                for pre in ('person','place','date','event'):
+                    metalist[pre] = set()
+
                 for sel, sub, pre, obj, start, end in self._triples:
                     if sel is not None and sel.docid == d.id:
-                        s = sel.start + start
-                        e = sel.start + end 
-                        if len(d.content[s:e]) > 0:
-                            node = b.P()
-                            node.text = d.content[s:e]
-                            meta_html.append(node)
-                        del s,e
+                        metalist[pre].add(obj) 
+
+                for pre in ('person','place','date','event'):
+                    metali = []
+                    for m in sorted(metalist[pre]):
+                        metali.append(b.LI(m))
+                    meta_html.append(b.H3(pre))
+                    meta_html.append(b.UL(*metali))
 
                 content = lxml.html.tostring(b.DIV(*content_html))
                 meta = lxml.html.tostring(b.DIV(*meta_html))
