@@ -194,6 +194,7 @@ HTML_BODY_EVENT_LIST = """
         </div>
     </div>
     <div id="events">
+    <div id="eventlist">
         <div class="event">
             <h2>Main Event Title 1</h2>
             <p class="summary">Summary: Vestibulum et metus tortor, nec congue magna. Maecenas vestibulum, tortor ut euismod mattis, diam metus aliquam lorem, a tristique orci tellus ut turpis.</p>
@@ -227,7 +228,11 @@ HTML_BODY_EVENT_LIST = """
             <p>Integer sem nunc, facilisis lobortis malesuada non, cursus in tellus. Nam pulvinar orci et diam tristique vulputate. Cras ac nunc eu nisi tempus tristique sed vel metus. Maecenas justo nulla, rutrum ac interdum eu, consectetur vel ipsum. Sed semper molestie eros sed commodo. Mauris ultrices velit a lorem vestibulum adipiscing. Vivamus elementum consectetur adipiscing. Praesent pellentesque orci non ante vulputate elementum. Proin eget rhoncus mauris. Morbi rhoncus laoreet dolor sed vestibulum. In eu arcu ac augue laoreet auctor. Duis quis neque ipsum, vel consectetur lacus. Cras egestas molestie lectus id volutpat. Integer a justo et magna blandit dictum.
             </p>
         </div>
-        
+        </div>
+        <div id="eventlist-action">
+          <button id="eventlist-left"><span>Left</span></button>
+          <button id="eventlist-right"><span>Right</span></button>
+        </div>
    </div>
 </body>
 </html>

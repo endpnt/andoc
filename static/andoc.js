@@ -1,8 +1,22 @@
 var docid = document.URL.split('/')[5];
 var backuphldoc;
 var backupstruc;
+var curleft = 0;
 
 $(document).ready(function() {
+
+    $("#eventlist-left").click(function() {
+        curleft = curleft + $("#events").width()/2;
+        if (curleft <= 0) {
+            $("#eventlist").css("left", curleft + "px");
+        } else {
+            curleft = 0;
+        }
+    });
+    $("#eventlist-right").click(function() {
+        curleft = curleft - $("#events").width()/2;
+        $("#eventlist").css("left", curleft + "px");
+    });
 
     $("#head1").click(function() { sendSelection('h1'); });
     $("#head2").click(function() { sendSelection('h2'); });
