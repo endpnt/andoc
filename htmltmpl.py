@@ -195,7 +195,9 @@ HTML_BODY_EVENT_LIST = """
     </div>
     <div id="events">
     <div id="eventlist">
-        <div class="event">
+        <div id="event-1" class="event">
+            <div class="date">1. Jan 2011</div>
+            <button id="event-action-show"><span>Show</span></button>
             <h2>Main Event Title 1</h2>
             <p class="summary">Summary: Vestibulum et metus tortor, nec congue magna. Maecenas vestibulum, tortor ut euismod mattis, diam metus aliquam lorem, a tristique orci tellus ut turpis.</p>
             <h3>Events</h3>
@@ -216,21 +218,51 @@ HTML_BODY_EVENT_LIST = """
             </ul>
         </div>
         <div class="event">
-            <h4>Event Title 1</h4>
             <div class="date">1. Jan 2011</div>
+            <h4>Event Title 1</h4>
             <p>Vestibulum et metus tortor, nec congue magna. Maecenas vestibulum, tortor ut euismod mattis, diam metus aliquam lorem, a tristique orci tellus ut turpis. Nullam vitae felis ut eros sollicitudin rutrum a tempor nulla. Cras scelerisque augue quis purus lobortis ac tempus est imperdiet. Vivamus nisl neque, rutrum id tincidunt in, venenatis a nulla. Vivamus nec lectus sit amet nunc feugiat ultrices in dignissim lacus. Maecenas fringilla iaculis tortor. Fusce et elit ut diam pretium blandit. Phasellus risus enim, tempus quis ornare a, tempor eu erat. Suspendisse potenti. Nunc fringilla est sit amet tortor imperdiet eget viverra quam hendrerit. Mauris ornare feugiat gravida. Aenean hendrerit ipsum id metus molestie ultricies. Ut pharetra justo varius libero euismod ullamcorper. Vivamus faucibus, urna a gravida pretium, ante est lobortis felis, in consequat elit dui non odio. Integer a erat lorem. Donec imperdiet, nibh sed sodales euismod, enim lacus imperdiet ipsum, vitae consectetur eros neque sed arcu. Phasellus consectetur neque eleifend odio blandit pellentesque. Morbi eu quam quis turpis venenatis porttitor. Aenean vel lacus sem.
             
             </p>
         </div>
         <div class="event">
-            <h4>Event Title 1</h4>
             <div class="date">1. Jan 2011</div>
+            <h4>Event Title 1</h4>
             <p>Integer sem nunc, facilisis lobortis malesuada non, cursus in tellus. Nam pulvinar orci et diam tristique vulputate. Cras ac nunc eu nisi tempus tristique sed vel metus. Maecenas justo nulla, rutrum ac interdum eu, consectetur vel ipsum. Sed semper molestie eros sed commodo. Mauris ultrices velit a lorem vestibulum adipiscing. Vivamus elementum consectetur adipiscing. Praesent pellentesque orci non ante vulputate elementum. Proin eget rhoncus mauris. Morbi rhoncus laoreet dolor sed vestibulum. In eu arcu ac augue laoreet auctor. Duis quis neque ipsum, vel consectetur lacus. Cras egestas molestie lectus id volutpat. Integer a justo et magna blandit dictum.
             </p>
         </div>
         </div>
         <div id="eventlist-action">
           <button id="eventlist-left"><span>Left</span></button>
+          <button class="eventlist-date" id="eventlist-date-jan">
+            <span>Jan 2011</span>
+          </button>
+          <button class="eventlist-date" id="eventlist-date-feb">
+            <span>Feb 2011</span>
+          </button>
+          <button class="eventlist-date" id="eventlist-date-feb">
+            <span>Mar 2011</span>
+          </button>
+          <button class="eventlist-date" id="eventlist-date1">
+            <span>Apr 2011</span>
+          </button>
+          <button class="eventlist-date" id="eventlist-date1">
+            <span>May 2011</span>
+          </button>
+          <button class="eventlist-date" id="eventlist-date1">
+            <span>Jun 2011</span>
+          </button>
+          <button class="eventlist-date" id="eventlist-date1">
+            <span>Jul 2011</span>
+          </button>
+          <button class="eventlist-date" id="eventlist-date1">
+            <span>Aug 2011</span>
+          </button>
+          <button class="eventlist-date" id="eventlist-date1">
+            <span>Sep 2011</span>
+          </button>
+          <button class="eventlist-date" id="eventlist-date1">
+            <span>Oct 2011</span>
+          </button>
           <button id="eventlist-right"><span>Right</span></button>
         </div>
    </div>

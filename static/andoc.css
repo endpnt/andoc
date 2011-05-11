@@ -63,6 +63,7 @@ button { cursor: pointer; }
     padding: 0 1em;
 }
 
+#events .event button:hover,
 #eventlist-action button:hover,
 #search button:hover { 
     text-shadow: rgba(255, 255, 255, 0.9) 0 0 10px ; 
@@ -144,15 +145,6 @@ button { cursor: pointer; }
     overflow: hidden;
     width: 97%; 
 }
-
-#events .event {
-    display: block;
-    float: left;
-    width: 30%;
-    min-width: 200px;
-    margin: 1em 2em 2em 0;
-}
-
 #meta { 
     position: absolute;
     top: 155px;
@@ -298,6 +290,7 @@ button { cursor: pointer; }
 
 #eventlist {
   width: 200%;
+  height: 92%;
   overflow: hidden;
   left: 0px;
   position: relative;
@@ -312,7 +305,10 @@ button { cursor: pointer; }
 #eventlist-action {
   width: 100%;
   margin: 1em 0;
+  text-align: center;
 }
+
+#events .event button,
 #eventlist-action button {
   border: 1px solid #666;
   height: 25px;
@@ -320,6 +316,18 @@ button { cursor: pointer; }
   background-color: transparent;
   color: white;
   width:100px;
+}
+#events .event button {
+    float: right;
+    height: 15px;
+    width: 15px;
+}
+#events .event button span {
+    display: none;
+}
+
+#eventlist-action button.eventlist-date {
+    width: auto;
 }
 
 #eventlist-right {
@@ -333,3 +341,39 @@ button { cursor: pointer; }
   border-top-left-radius: .8em;
   border-bottom-left-radius: .8em;
 }
+
+#events {
+    height: 75%;
+}
+
+#events .event:hover { 
+}
+
+#events .event {
+    display: block;
+    float: left;
+    width: 25%;
+    min-width: 150px;
+    max-height: 400px;
+    height: 60px;
+    margin: 1em 2em 2em 0;
+    padding: .2em 0 0 0;
+    overflow: hidden;
+    -webkit-transition: .5s ease-in-out;
+    -moz-transition: .5s ease-in-out;
+    transition: .5s ease-in-out;
+    background: -webkit-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,.01));
+    border-top: 5px solid rgba(0,0,0,0) ;
+}
+
+#events .clicked {
+    height: 500px;
+    background: -webkit-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,.5));
+    border-top: 5px solid royalblue;
+}
+
+#events .event .date {
+  text-align: center;
+  margin-bottom: 1em;
+}
+

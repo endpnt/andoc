@@ -18,6 +18,11 @@ $(document).ready(function() {
         $("#eventlist").css("left", curleft + "px");
     });
 
+    $("#event-action-show").click(function() {
+        console.log("xx");
+        $("#event-1").toggleClass('clicked');
+    });
+
     $("#head1").click(function() { sendSelection('h1'); });
     $("#head2").click(function() { sendSelection('h2'); });
     $("#head3").click(function() { sendSelection('h3'); });
