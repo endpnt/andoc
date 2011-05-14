@@ -194,42 +194,62 @@ HTML_BODY_EVENT_LIST = """
         </div>
     </div>
     <div id="events">
-    <div id="eventlist">
-        <div id="event-1" class="event">
-            <div class="date">1. Jan 2011</div>
-            <button id="event-action-show"><span>Show</span></button>
-            <h2>Main Event Title 1</h2>
-            <p class="summary">Summary: Vestibulum et metus tortor, nec congue magna. Maecenas vestibulum, tortor ut euismod mattis, diam metus aliquam lorem, a tristique orci tellus ut turpis.</p>
-            <h3>Events</h3>
-            <ul>
-                <li>Sub Event</li>
-            </ul>
-            <h3>Timeline</h3>
-            <ul>
-                <li>1. Jan 2011</li>
-            </ul>
-            <h3>Persons</h3>
-            <ul>
-                <li>Person 1</li>
-            </ul>
-            <h3>Places</h3>
-            <ul>
-                <li>Place 1</li>
-            </ul>
+        <div id="eventlist">
+        <div id="eventlist-groupby-action">
+            Group by
+          <button id="event-group-magic"><span>Relation</span></button>
+          <button id="event-group-place"><span>Place</span></button>
+          <button id="event-group-person"><span>Person</span></button>
         </div>
-        <div class="event">
-            <div class="date">1. Jan 2011</div>
-            <h4>Event Title 1</h4>
-            <p>Vestibulum et metus tortor, nec congue magna. Maecenas vestibulum, tortor ut euismod mattis, diam metus aliquam lorem, a tristique orci tellus ut turpis. Nullam vitae felis ut eros sollicitudin rutrum a tempor nulla. Cras scelerisque augue quis purus lobortis ac tempus est imperdiet. Vivamus nisl neque, rutrum id tincidunt in, venenatis a nulla. Vivamus nec lectus sit amet nunc feugiat ultrices in dignissim lacus. Maecenas fringilla iaculis tortor. Fusce et elit ut diam pretium blandit. Phasellus risus enim, tempus quis ornare a, tempor eu erat. Suspendisse potenti. Nunc fringilla est sit amet tortor imperdiet eget viverra quam hendrerit. Mauris ornare feugiat gravida. Aenean hendrerit ipsum id metus molestie ultricies. Ut pharetra justo varius libero euismod ullamcorper. Vivamus faucibus, urna a gravida pretium, ante est lobortis felis, in consequat elit dui non odio. Integer a erat lorem. Donec imperdiet, nibh sed sodales euismod, enim lacus imperdiet ipsum, vitae consectetur eros neque sed arcu. Phasellus consectetur neque eleifend odio blandit pellentesque. Morbi eu quam quis turpis venenatis porttitor. Aenean vel lacus sem.
-            
-            </p>
-        </div>
-        <div class="event">
-            <div class="date">1. Jan 2011</div>
-            <h4>Event Title 1</h4>
-            <p>Integer sem nunc, facilisis lobortis malesuada non, cursus in tellus. Nam pulvinar orci et diam tristique vulputate. Cras ac nunc eu nisi tempus tristique sed vel metus. Maecenas justo nulla, rutrum ac interdum eu, consectetur vel ipsum. Sed semper molestie eros sed commodo. Mauris ultrices velit a lorem vestibulum adipiscing. Vivamus elementum consectetur adipiscing. Praesent pellentesque orci non ante vulputate elementum. Proin eget rhoncus mauris. Morbi rhoncus laoreet dolor sed vestibulum. In eu arcu ac augue laoreet auctor. Duis quis neque ipsum, vel consectetur lacus. Cras egestas molestie lectus id volutpat. Integer a justo et magna blandit dictum.
-            </p>
-        </div>
+            <div id="row-1" class="row">
+                <h4 class="place">Mars</h4>
+                <div id="event-1" class="event">
+                    <div class="date">1. Jan 2011</div>
+                    <button id="event-action-show"><span>Show</span></button>
+                    <h2><a href="">Main Event Title 1</a></h2>
+                    <p class="summary">Summary: Vestibulum et metus tortor, nec congue magna. Maecenas vestibulum, tortor ut euismod mattis, diam metus aliquam lorem, a tristique orci tellus ut turpis.</p>
+                    <h3>Events</h3>
+                    <ul>
+                        <li>Sub Event</li>
+                    </ul>
+                    <h3>Persons</h3>
+                    <ul class="personlist">
+                        <li>
+                            <h4><a href="">Person 1</a></h4>
+                            <p>Description for Person 1. Vestibulum et metus tortor, nec congue magna.</p>
+                        </li>
+                        <li>
+                            <h4><a href="">Person 2</a></h4>
+                            <p>Description for Person 2. Vestibulum et metus tortor, nec congue magna.</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="event">
+                    <div class="date">4. Jan 2011</div>
+                    <h2><a href="">Event Title 1</a></h2>
+                    <p>Vestibulum et metus tortor, nec congue magna. Maecenas vestibulum, tortor ut euismod mattis, diam metus aliquam lorem, a tristique orci tellus ut turpis. Nullam vitae felis ut eros sollicitudin rutrum a tempor nulla. Cras scelerisque augue quis purus lobortis ac tempus est imperdiet. Vivamus nisl neque, rutrum id tincidunt in, venenatis a nulla. Vivamus nec lectus sit amet nunc feugiat ultrices in dignissim lacus. Maecenas fringilla iaculis tortor. Fusce et elit ut diam pretium blandit. Phasellus risus enim, tempus quis ornare a, tempor eu erat. Suspendisse potenti. Nunc fringilla est sit amet tortor imperdiet eget viverra quam hendrerit. Mauris ornare feugiat gravida. Aenean hendrerit ipsum id metus molestie ultricies. Ut pharetra justo varius libero euismod ullamcorper. Vivamus faucibus, urna a gravida pretium, ante est lobortis felis, in consequat elit dui non odio. Integer a erat lorem. Donec imperdiet, nibh sed sodales euismod, enim lacus imperdiet ipsum, vitae consectetur eros neque sed arcu. Phasellus consectetur neque eleifend odio blandit pellentesque. Morbi eu quam quis turpis venenatis porttitor. Aenean vel lacus sem.
+                    
+                    </p>
+                </div>
+                <div class="event">
+                    <div class="date">15. Jan 2011</div>
+                    <h2><a href="">Event Title 1</a></h2>
+                    <p>Integer sem nunc, facilisis lobortis malesuada non, cursus in tellus. Nam pulvinar orci et diam tristique vulputate. Cras ac nunc eu nisi tempus tristique sed vel metus. Maecenas justo nulla, rutrum ac interdum eu, consectetur vel ipsum. Sed semper molestie eros sed commodo. Mauris ultrices velit a lorem vestibulum adipiscing. Vivamus elementum consectetur adipiscing. Praesent pellentesque orci non ante vulputate elementum. Proin eget rhoncus mauris. Morbi rhoncus laoreet dolor sed vestibulum. In eu arcu ac augue laoreet auctor. Duis quis neque ipsum, vel consectetur lacus. Cras egestas molestie lectus id volutpat. Integer a justo et magna blandit dictum.
+                    </p>
+                </div>
+                <div class="c"></div>
+            </div>
+            <div id="row-2" class="row">
+                <h4 class="place">Planet Earth</h4>
+                <div class="event">
+                    <div class="date">1. Jan 2011</div>
+                    <h2><a href="">Event Title 1</a></h2>
+                    <p>Integer sem nunc, facilisis lobortis malesuada non, cursus in tellus. Nam pulvinar orci et diam tristique vulputate. Cras ac nunc eu nisi tempus tristique sed vel metus. Maecenas justo nulla, rutrum ac interdum eu, consectetur vel ipsum. Sed semper molestie eros sed commodo. Mauris ultrices velit a lorem vestibulum adipiscing. Vivamus elementum consectetur adipiscing. Praesent pellentesque orci non ante vulputate elementum. Proin eget rhoncus mauris. Morbi rhoncus laoreet dolor sed vestibulum. In eu arcu ac augue laoreet auctor. Duis quis neque ipsum, vel consectetur lacus. Cras egestas molestie lectus id volutpat. Integer a justo et magna blandit dictum.
+                    </p>
+                </div>
+                <div class="c"></div>
+
+            </div>
         </div>
         <div id="eventlist-action">
           <button id="eventlist-left"><span>Left</span></button>
