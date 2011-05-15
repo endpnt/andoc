@@ -1,4 +1,5 @@
 HTML_HEAD = """
+<!DOCTYPE html> 
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="/static/andoc.css" />
@@ -201,17 +202,17 @@ HTML_BODY_EVENT_LIST = """
           <button id="event-group-place"><span>Place</span></button>
           <button id="event-group-person"><span>Person</span></button>
         </div>
-            <div id="row-1" class="row">
-                <h4 class="place">Mars</h4>
-                <div id="event-1" class="event">
+            <div id="row-1" class="row" style="height: 100px; top: 20px;">
+                <svg class="rowlabel" width="20px" height="100px" style="top: 0px;"
+                     xmlns="http://www.w3.org/2000/svg" version="1.1"> 
+                    <text transform="translate(15,70) rotate(-90)" 
+                          font-size="100%" fill="white">Mars</text> 
+                </svg> 
+                <div id="event-1" class="event" style="left: 30px; top: 10px;">
                     <div class="date">1. Jan 2011</div>
                     <button id="event-action-show"><span>Show</span></button>
                     <h2><a href="">Main Event Title 1</a></h2>
                     <p class="summary">Summary: Vestibulum et metus tortor, nec congue magna. Maecenas vestibulum, tortor ut euismod mattis, diam metus aliquam lorem, a tristique orci tellus ut turpis.</p>
-                    <h3>Events</h3>
-                    <ul>
-                        <li>Sub Event</li>
-                    </ul>
                     <h3>Persons</h3>
                     <ul class="personlist">
                         <li>
@@ -224,31 +225,95 @@ HTML_BODY_EVENT_LIST = """
                         </li>
                     </ul>
                 </div>
-                <div class="event">
+                <svg height="100px" width="30px" style="left: 330px;">
+                    <path stroke=white fill=none
+                          stroke-width=3
+                          d="M 0,50 30,50" />
+                </svg>
+                <div class="event" style="top: 10px; left: 360px;">
                     <div class="date">4. Jan 2011</div>
                     <h2><a href="">Event Title 1</a></h2>
-                    <p>Vestibulum et metus tortor, nec congue magna. Maecenas vestibulum, tortor ut euismod mattis, diam metus aliquam lorem, a tristique orci tellus ut turpis. Nullam vitae felis ut eros sollicitudin rutrum a tempor nulla. Cras scelerisque augue quis purus lobortis ac tempus est imperdiet. Vivamus nisl neque, rutrum id tincidunt in, venenatis a nulla. Vivamus nec lectus sit amet nunc feugiat ultrices in dignissim lacus. Maecenas fringilla iaculis tortor. Fusce et elit ut diam pretium blandit. Phasellus risus enim, tempus quis ornare a, tempor eu erat. Suspendisse potenti. Nunc fringilla est sit amet tortor imperdiet eget viverra quam hendrerit. Mauris ornare feugiat gravida. Aenean hendrerit ipsum id metus molestie ultricies. Ut pharetra justo varius libero euismod ullamcorper. Vivamus faucibus, urna a gravida pretium, ante est lobortis felis, in consequat elit dui non odio. Integer a erat lorem. Donec imperdiet, nibh sed sodales euismod, enim lacus imperdiet ipsum, vitae consectetur eros neque sed arcu. Phasellus consectetur neque eleifend odio blandit pellentesque. Morbi eu quam quis turpis venenatis porttitor. Aenean vel lacus sem.
-                    
-                    </p>
+                    <p>Test</p>
                 </div>
-                <div class="event">
+                <svg height="100px" width="30px" style="left: 660px;">
+                    <path stroke=white fill=none
+                          stroke-width=3
+                          d="M 0,50 30,50" />
+                </svg>
+                <div class="event" style="top: 10px; left: 690px;">
                     <div class="date">15. Jan 2011</div>
                     <h2><a href="">Event Title 1</a></h2>
-                    <p>Integer sem nunc, facilisis lobortis malesuada non, cursus in tellus. Nam pulvinar orci et diam tristique vulputate. Cras ac nunc eu nisi tempus tristique sed vel metus. Maecenas justo nulla, rutrum ac interdum eu, consectetur vel ipsum. Sed semper molestie eros sed commodo. Mauris ultrices velit a lorem vestibulum adipiscing. Vivamus elementum consectetur adipiscing. Praesent pellentesque orci non ante vulputate elementum. Proin eget rhoncus mauris. Morbi rhoncus laoreet dolor sed vestibulum. In eu arcu ac augue laoreet auctor. Duis quis neque ipsum, vel consectetur lacus. Cras egestas molestie lectus id volutpat. Integer a justo et magna blandit dictum.
-                    </p>
+                    <p>Bla</p>
                 </div>
-                <div class="c"></div>
             </div>
-            <div id="row-2" class="row">
-                <h4 class="place">Planet Earth</h4>
-                <div class="event">
+            <div id="row-2" class="row" style="top: 140px; height: 200px; ">
+                <svg class="rowlabel" width="20px" height="200px" style="top: 0px;"
+                     xmlns="http://www.w3.org/2000/svg" version="1.1"> 
+                    <text transform="translate(15,150) rotate(-90)" 
+                          font-size="100%" fill="white" >Planet Earth</text> 
+                </svg> 
+                <svg height="200px" width="100px" style="left: 20px;" >
+                    <path stroke=white fill=none
+                          stroke-width=3
+                          d="M 0,100 30,100" />
+                    <path stroke=white fill=none
+                          stroke-width=3 
+                          d="M 30,100 70,50 100,50" />
+                    <path stroke=white fill=none
+                          stroke-width=3
+                          d="M 100,150 70,150 30,100" />
+                </svg>
+                <div class="event" style="left: 120px; top:10px;">
                     <div class="date">1. Jan 2011</div>
                     <h2><a href="">Event Title 1</a></h2>
-                    <p>Integer sem nunc, facilisis lobortis malesuada non, cursus in tellus. Nam pulvinar orci et diam tristique vulputate. Cras ac nunc eu nisi tempus tristique sed vel metus. Maecenas justo nulla, rutrum ac interdum eu, consectetur vel ipsum. Sed semper molestie eros sed commodo. Mauris ultrices velit a lorem vestibulum adipiscing. Vivamus elementum consectetur adipiscing. Praesent pellentesque orci non ante vulputate elementum. Proin eget rhoncus mauris. Morbi rhoncus laoreet dolor sed vestibulum. In eu arcu ac augue laoreet auctor. Duis quis neque ipsum, vel consectetur lacus. Cras egestas molestie lectus id volutpat. Integer a justo et magna blandit dictum.
-                    </p>
+                    <p>Text</p>
                 </div>
-                <div class="c"></div>
-
+                <svg height="100px" width="30px" style="left: 420px;">
+                    <path stroke=white fill=none
+                          stroke-width=3
+                          d="M 0,50 30,50" />
+                </svg>
+                <div class="event" style="top: 10px; left: 450px;">
+                    <div class="date">7. Jan 2011</div>
+                    <h2><a href="">Event Title 2</a></h2>
+                    <p>Text</p>
+                </div>
+                <svg height="100px" width="30px" style="left: 750px;">
+                    <path stroke=white fill=none
+                          stroke-width=3
+                          d="M 0,50 30,50" />
+                </svg>
+                <div class="event" style="top: 10px; left: 780px;">
+                    <div class="date">14. Jan 2011</div>
+                    <h2><a href="">Event Title 3</a></h2>
+                    <p>Text</p>
+                </div>
+                <svg height="100px" width="30px" style="left: 1080px;">
+                    <path stroke=white fill=none
+                          stroke-width=3
+                          d="M 0,50 30,50" />
+                </svg>
+                <div class="event" style="top: 10px; left: 1110px;">
+                    <div class="date">21. Jan 2011</div>
+                    <h2><a href="">Event Title 4</a></h2>
+                    <p>Text</p>
+                </div>
+                <!-- next row -->
+                <div class="event" style="left: 120px; top: 110px;">
+                    <div class="date">4. Jan 2011</div>
+                    <h2><a href="">Event Title 5</a></h2>
+                    <p>Text</p>
+                </div>
+                <svg height="100px" width="30px" style="left: 420px; top: 100px;">
+                    <path stroke=white fill=none
+                          stroke-width=3
+                          d="M 0,50 30,50" />
+                </svg>
+                <div class="event" style="left: 450px; top: 110px;">
+                    <div class="date">10. Jan 2011</div>
+                    <h2><a href="">Event Title 6</a></h2>
+                    <p>Text</p>
+                </div>
             </div>
         </div>
         <div id="eventlist-action">

@@ -5,7 +5,8 @@ body {
     font-family: Verdana; 
 }
 
-a { color: white; }
+a { color: white; text-decoration: none; }
+a:hover { text-decoration: underline; }
 a:visited { color: gray; } 
 
 .c { clear: both; }
@@ -129,7 +130,7 @@ button { cursor: pointer; }
 }
 
 #index, #events, #personlist, #placelist, #datelist { 
-    position: absolute;
+    position: fixed;
     top: 130px;
     left: 0;
     margin: 0 0 1em 0; 
@@ -367,16 +368,19 @@ button { cursor: pointer; }
 }
 
 #events .event:hover { 
+    border: 1px solid rgba(65,105,225,0.4);
+    border-top: 15px solid rgba(65,105,225,0.6);
+    border-top-left-radius: .4em;
+    border-top-right-radius: .4em;
 }
 
 #events .event {
+    z-index: 10;
+    position: absolute;
     display: block;
-    float: left;
-    width: 15%;
-    min-width: 150px;
-    max-height: 400px;
-    height: 63px;
-    margin: 0 .5em 0 0;
+    width: 300px;
+    height: 60px;
+    margin: 0;
     padding: 0;
     overflow: hidden;
     -webkit-transition: .5s ease-in-out;
@@ -387,32 +391,43 @@ button { cursor: pointer; }
     border-top-left-radius: .4em;
     border-top-right-radius: .4em;
     -webkit-box-shadow: 1px 1px 10px black;
-    -moz-box-shadow: outset 10px 10px 15px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: 1px 1px 10px black;
     background-color: rgba(0,0,0,0.2);
 }
 
+#events .clicked:hover,
 #events .clicked {
-    height: 800px;
+    z-index: 999;
+    height: 400px;
     border: 1px solid rgba(65,105,225,0.4);
     border-top: 15px solid royalblue;
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(6,6,6,1.0);
+    -webkit-box-shadow: 10px 10px 15px black;
+    -moz-box-shadow: 5px 5px 10px black;
 }
 
 #events .event .date {
   text-align: center;
-  padding: .4em;
+  padding: .2em 0;
+}
+#events .event p.summary {
+  padding: 0 1em;
 }
 
 #events .row {
-    border: 1px solid black;
-    border-left: 12px solid rgba(0,255,0,0.1);
+    position: absolute;
+    width: 100%;
+    border: 1px solid rgba(0,255,0,0.1);
+    border-left: 10px solid rgba(0,255,0,0.1);
+    border-top-left-radius: .4em;
+    border-bottom-left-radius: .4em;
     margin: 1em 0 1.2em 0;
-    padding: .1em .5em 1em .5em;
     -webkit-box-shadow: inset 1px 1px 10px black;
     -moz-box-shadow: inset 10px 10px 15px rgba(0, 0, 0, 0.7);
 }
 #events .row:hover {
-    border-left: 12px solid rgba(0,255,0,0.5);
+    border: 1px solid rgba(0,255,0,0.5);
+    border-left: 10px solid rgba(0,255,0,0.5);
     -webkit-transition: .3s ease-in-out;
     -moz-transition: .3s ease-in-out;
 }
@@ -420,7 +435,7 @@ button { cursor: pointer; }
 #events .row h4 {
     font-size: 1em;
     font-weight: normal;
-    padding: 0; margin 0;
+    padding: 0; margin: .2em 0 .2em .5em;
 }
 
 #events .event ul.personlist {
@@ -438,3 +453,12 @@ button { cursor: pointer; }
 #events .event ul.personlist p {
     display: inline;
 }
+#events .rowlabel {
+    position: absolute;
+    background-color: rgba(0,255,0,0.1);
+}
+
+#events .row svg {
+    position: absolute;
+}
+
