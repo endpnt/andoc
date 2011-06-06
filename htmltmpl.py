@@ -225,7 +225,7 @@ HTML_BODY_EVENT_LIST = """
                         </li>
                     </ul>
                 </div>
-                <svg height="100px" width="30px" style="left: 330px;">
+                <svg height="100px" width="28px" style="left: 332px;">
                     <path stroke=white fill=none
                           stroke-width=3
                           d="M 0,50 30,50" />
@@ -235,7 +235,7 @@ HTML_BODY_EVENT_LIST = """
                     <h2><a href="">Event Title 1</a></h2>
                     <p>Test</p>
                 </div>
-                <svg height="100px" width="30px" style="left: 660px;">
+                <svg height="100px" width="28px" style="left: 662px;">
                     <path stroke=white fill=none
                           stroke-width=3
                           d="M 0,50 30,50" />
@@ -246,10 +246,10 @@ HTML_BODY_EVENT_LIST = """
                     <p>Bla</p>
                 </div>
             </div>
-            <div id="row-2" class="row" style="top: 140px; height: 200px; ">
-                <svg class="rowlabel" width="20px" height="200px" style="top: 0px;"
+            <div id="row-2" class="row" style="top: 140px; height: 300px; ">
+                <svg class="rowlabel" width="20px" height="300px" style="top: 0px;"
                      xmlns="http://www.w3.org/2000/svg" version="1.1"> 
-                    <text transform="translate(15,150) rotate(-90)" 
+                    <text transform="translate(15,190) rotate(-90)" 
                           font-size="100%" fill="white" >Planet Earth</text> 
                 </svg> 
                 <svg height="200px" width="100px" style="left: 20px;" >
@@ -268,7 +268,7 @@ HTML_BODY_EVENT_LIST = """
                     <h2><a href="">Event Title 1</a></h2>
                     <p>Text</p>
                 </div>
-                <svg height="100px" width="30px" style="left: 420px;">
+                <svg height="100px" width="28px" style="left: 422px;">
                     <path stroke=white fill=none
                           stroke-width=3
                           d="M 0,50 30,50" />
@@ -278,7 +278,7 @@ HTML_BODY_EVENT_LIST = """
                     <h2><a href="">Event Title 2</a></h2>
                     <p>Text</p>
                 </div>
-                <svg height="100px" width="30px" style="left: 750px;">
+                <svg height="100px" width="28px" style="left: 752px;">
                     <path stroke=white fill=none
                           stroke-width=3
                           d="M 0,50 30,50" />
@@ -288,7 +288,7 @@ HTML_BODY_EVENT_LIST = """
                     <h2><a href="">Event Title 3</a></h2>
                     <p>Text</p>
                 </div>
-                <svg height="100px" width="30px" style="left: 1080px;">
+                <svg height="100px" width="28px" style="left: 1082px;">
                     <path stroke=white fill=none
                           stroke-width=3
                           d="M 0,50 30,50" />
@@ -304,14 +304,29 @@ HTML_BODY_EVENT_LIST = """
                     <h2><a href="">Event Title 5</a></h2>
                     <p>Text</p>
                 </div>
-                <svg height="100px" width="30px" style="left: 420px; top: 100px;">
+                <svg height="200px" width="148px" style="left: 422px; top: 100px;">
                     <path stroke=white fill=none
                           stroke-width=3
-                          d="M 0,50 30,50" />
+                          d="M 0,50 28,50" />
+                    <path stroke=white fill=none
+                          stroke-width=3
+                          d="M 15,50 15,115" />
+                    <path stroke=white fill=none
+                          stroke-width=3
+                          d="M 15,115 45,150" />
+                    <path stroke=white fill=none
+                          stroke-width=3
+                          d="M 45,150 128,150" />
                 </svg>
                 <div class="event" style="left: 450px; top: 110px;">
                     <div class="date">10. Jan 2011</div>
                     <h2><a href="">Event Title 6</a></h2>
+                    <p>Text</p>
+                </div>
+                <!-- next row -->
+                <div class="event" style="left: 550px; top: 210px;">
+                    <div class="date">12. Jan 2011</div>
+                    <h2><a href="">Event Title 7</a></h2>
                     <p>Text</p>
                 </div>
             </div>
