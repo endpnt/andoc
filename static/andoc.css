@@ -302,7 +302,7 @@ button { cursor: pointer; }
 
 #eventlist {
   width: 200%;
-  height: 92%;
+  height: 470px;
   overflow: hidden;
   left: 0px;
   position: relative;
@@ -460,5 +460,35 @@ button { cursor: pointer; }
 
 #events .row svg {
     position: absolute;
+}
+
+#events .row svg path {
+    stroke: rgba(255,255,255,0.2);
+    stroke-width: 2px;
+}
+
+#events .row:hover svg path {
+    stroke: white;
+}
+
+#timeline svg {
+    cursor: pointer;
+}
+
+#timeline svg path {
+    stroke: rgba(255,255,255,0.2);
+    stroke-width: 3px;
+}
+
+#timeline svg path:hover {
+    stroke: white;
+}
+
+#timeline svg text {
+    font-size: 90px; 
+    font-style: normal;
+    font-family: monospace;
+    transform: translate(0,50) rotate(0); 
+    fill: red;
 }
 

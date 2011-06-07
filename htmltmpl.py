@@ -226,9 +226,7 @@ HTML_BODY_EVENT_LIST = """
                     </ul>
                 </div>
                 <svg height="100px" width="28px" style="left: 332px;">
-                    <path stroke=white fill=none
-                          stroke-width=3
-                          d="M 0,50 30,50" />
+                    <path d="M 0,50 30,50" />
                 </svg>
                 <div class="event" style="top: 10px; left: 360px;">
                     <div class="date">4. Jan 2011</div>
@@ -236,9 +234,7 @@ HTML_BODY_EVENT_LIST = """
                     <p>Test</p>
                 </div>
                 <svg height="100px" width="28px" style="left: 662px;">
-                    <path stroke=white fill=none
-                          stroke-width=3
-                          d="M 0,50 30,50" />
+                    <path d="M 0,50 30,50" />
                 </svg>
                 <div class="event" style="top: 10px; left: 690px;">
                     <div class="date">15. Jan 2011</div>
@@ -253,15 +249,9 @@ HTML_BODY_EVENT_LIST = """
                           font-size="100%" fill="white" >Planet Earth</text> 
                 </svg> 
                 <svg height="200px" width="100px" style="left: 20px;" >
-                    <path stroke=white fill=none
-                          stroke-width=3
-                          d="M 0,100 30,100" />
-                    <path stroke=white fill=none
-                          stroke-width=3 
-                          d="M 30,100 70,50 100,50" />
-                    <path stroke=white fill=none
-                          stroke-width=3
-                          d="M 100,150 70,150 30,100" />
+                    <path d="M 0,100 30,100" />
+                    <path d="M 30,100 70,50 100,50" />
+                    <path d="M 100,150 70,150 30,100" />
                 </svg>
                 <div class="event" style="left: 120px; top:10px;">
                     <div class="date">1. Jan 2011</div>
@@ -269,9 +259,7 @@ HTML_BODY_EVENT_LIST = """
                     <p>Text</p>
                 </div>
                 <svg height="100px" width="28px" style="left: 422px;">
-                    <path stroke=white fill=none
-                          stroke-width=3
-                          d="M 0,50 30,50" />
+                    <path d="M 0,50 30,50" />
                 </svg>
                 <div class="event" style="top: 10px; left: 450px;">
                     <div class="date">7. Jan 2011</div>
@@ -279,9 +267,7 @@ HTML_BODY_EVENT_LIST = """
                     <p>Text</p>
                 </div>
                 <svg height="100px" width="28px" style="left: 752px;">
-                    <path stroke=white fill=none
-                          stroke-width=3
-                          d="M 0,50 30,50" />
+                    <path d="M 0,50 30,50" />
                 </svg>
                 <div class="event" style="top: 10px; left: 780px;">
                     <div class="date">14. Jan 2011</div>
@@ -289,9 +275,7 @@ HTML_BODY_EVENT_LIST = """
                     <p>Text</p>
                 </div>
                 <svg height="100px" width="28px" style="left: 1082px;">
-                    <path stroke=white fill=none
-                          stroke-width=3
-                          d="M 0,50 30,50" />
+                    <path d="M 0,50 30,50" />
                 </svg>
                 <div class="event" style="top: 10px; left: 1110px;">
                     <div class="date">21. Jan 2011</div>
@@ -305,18 +289,10 @@ HTML_BODY_EVENT_LIST = """
                     <p>Text</p>
                 </div>
                 <svg height="200px" width="148px" style="left: 422px; top: 100px;">
-                    <path stroke=white fill=none
-                          stroke-width=3
-                          d="M 0,50 28,50" />
-                    <path stroke=white fill=none
-                          stroke-width=3
-                          d="M 15,50 15,115" />
-                    <path stroke=white fill=none
-                          stroke-width=3
-                          d="M 15,115 45,150" />
-                    <path stroke=white fill=none
-                          stroke-width=3
-                          d="M 45,150 128,150" />
+                    <path d="M 0,50    28,50" />
+                    <path d="M 15,50   15,115" />
+                    <path d="M 15,115  45,150" />
+                    <path d="M 45,150 128,150" />
                 </svg>
                 <div class="event" style="left: 450px; top: 110px;">
                     <div class="date">10. Jan 2011</div>
@@ -330,6 +306,40 @@ HTML_BODY_EVENT_LIST = """
                     <p>Text</p>
                 </div>
             </div>
+        </div>
+        <div id="timeline">
+            <svg height="50px" width="1000px" 
+                     xmlns="http://www.w3.org/2000/svg" version="1.1"> 
+                <text><tspan>2011</tspan></text> 
+            </svg>
+            <svg height="50px" width="1000px" style="margin-left: 30px;
+                     xmlns="http://www.w3.org/2000/svg" version="1.1"> 
+                <text><tspan>2011</tspan></text> 
+                <path d="M  0,0   0,50" />
+
+                <path d="M  10,40  10,50" />
+                <path d="M  20,40  20,50" />
+                <path d="M  30,40  30,50" />
+                <path d="M  40,40  40,50" />
+
+                <path  d="M 50,25  50,50" />
+
+                <path d="M  60,40  60,50" />
+                <path d="M  70,40  70,50" />
+                <path d="M  80,40  80,50" />
+                <path d="M  90,40  90,50" />
+
+                <path d="M 100,0  100,50" />
+
+                <path d="M 200,0 200,50" />
+                <path d="M 300,0 300,50" />
+                <path d="M 400,0 400,50" />
+                <path d="M 500,0 500,50" />
+                <path d="M 600,0 600,50" />
+                <path d="M 700,0 700,50" />
+                <path d="M 800,0 800,50" />
+                <path d="M 900,0 900,50" />
+            </svg>
         </div>
         <div id="eventlist-action">
           <button id="eventlist-left"><span>Left</span></button>

@@ -5,6 +5,10 @@ var curleft = 0;
 
 $(document).ready(function() {
 
+    $("#timeline svg path").click(function() {
+        alert("yeah");
+    });
+
     $("#eventlist-left").click(function() {
         curleft = curleft + $("#events").width()/2;
         if (curleft <= 0) {
