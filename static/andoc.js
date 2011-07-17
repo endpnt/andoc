@@ -46,6 +46,15 @@ $(document).ready(function() {
     $("#event").click(function() { sendTriple('event'); });
     $("#date").click(function() { sendTriple('date'); });
 
+    $("#action").click(function() { 
+        $("#actions div.edit").toggleClass('visible');
+        $("#actions ul.history").toggleClass('visible');
+    });
+    $("#history").click(function() { 
+        $("#actions div.edit").toggleClass('visible');
+        $("#actions ul.history").toggleClass('visible');
+    });
+
     var hldoc = document.getElementById('hldoc');
     if (hldoc) {
         backuphldoc = hldoc.cloneNode(true);
@@ -57,6 +66,25 @@ $(document).ready(function() {
         backupstruc = struc.cloneNode(true);
         loadTriples(docid);
     }
+
+
+    var tree = d3.layout.cluster()
+        .size([100,100]);
+
+    d3.json("/data/event-tree.json", function(json) {
+        var nodes = tree.nodes(json);
+
+        var row1 = d3.select(".row");
+        row1.selectAll("div.event")
+            .data(nodes)
+            .enter().append("div")
+                .attr("class","event")
+                .attr("style", function(d) { 
+                    return "left:" + d.y + "px; ";
+                })
+                .text(function(d){ return d.name; });
+
+    });
 });
 
 function markSelection(node, start, end, selclass) {
