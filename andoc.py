@@ -412,6 +412,13 @@ class Andoc(object):
         return elements
 
 
-config = {'/static': {'tools.staticdir.on': True, 'tools.staticdir.dir': STATICDIR} }
+config = {'/static': {
+            'tools.staticdir.on': True, 
+            'tools.staticdir.dir': STATICDIR },
+          '/data': {
+            'tools.staticdir.on': True,
+            'tools.staticdir.dir': CURDIR + '/data' },
+          '/': {'tools.sessions.on': True}
+         }
 cherrypy.tree.mount(Andoc(), '/', config)
 cherrypy.quickstart()
