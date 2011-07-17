@@ -35,18 +35,25 @@ HTML_BODY_RAW = """
             </form>
         </div>
         <div id="actions">
-            <h3>Actions</h3>
-            <p>Select area of the orginal document and apply structure information</p>
-            <button id="head1">Heading 1</button>
-            <button id="head2">Heading 2</button>
-            <button id="head3">Heading 3</button>
-            <button id="head4">Heading 4</button>
-            <button id="para">Paragraph</button>
-            <button id="span">span</button>
-            <button id="div">div</button>
-            <button id="li">List Element</button>
-            <button id="ul">List</button>
-            <button id="selections">Changes</button>
+            <h3 id="action">Actions</h3>
+            <div class="edit">
+                <p>Select area of the orginal document and apply structure information</p>
+                <button id="head1">Heading 1</button>
+                <button id="head2">Heading 2</button>
+                <button id="head3">Heading 3</button>
+                <button id="head4">Heading 4</button>
+                <button id="para">Paragraph</button>
+                <button id="span">span</button>
+                <button id="div">div</button>
+                <button id="li">List Element</button>
+                <button id="ul">List</button>
+                <button id="selections">Changes</button>
+            </div>
+            <h3 id="history">History</h3>
+            <ul class="history visible">
+                <li>rev. 1</li>
+                <li>rev. 2</li>
+            </ul>
         </div>
         <div id="hlaction"></div>
         <div id="raw">
@@ -105,6 +112,9 @@ HTML_BODY_STRUC = """
             <button id="event">Event</button>
             <button id="date">Date</button>
             <button id="rel">Relation</button>
+            <h3>History</h3>
+            <ul class="history">
+            </ul>
         </div>
     </div>
 </body>
@@ -208,6 +218,7 @@ HTML_BODY_EVENT_LIST = """
                     <text transform="translate(15,70) rotate(-90)" 
                           font-size="100%" fill="white">Mars</text> 
                 </svg> 
+
                 <div id="event-1" class="event" style="left: 30px; top: 10px;">
                     <div class="date">1. Jan 2011</div>
                     <button id="event-action-show"><span>Show</span></button>
@@ -248,7 +259,8 @@ HTML_BODY_EVENT_LIST = """
                     <text transform="translate(15,190) rotate(-90)" 
                           font-size="100%" fill="white" >Planet Earth</text> 
                 </svg> 
-                <svg height="200px" width="100px" style="left: 20px;" >
+                <svg height="200px" width="100px" style="left: 20px;" 
+                     xmlns="http://www.w3.org/2000/svg" version="1.1"> 
                     <path d="M 0,100 30,100" />
                     <path d="M 30,100 70,50 100,50" />
                     <path d="M 100,150 70,150 30,100" />
