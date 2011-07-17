@@ -210,6 +210,28 @@ button { cursor: pointer; }
 #actions #event { border-left: 1em solid royalblue; }
 #actions #date { border-left: 1em solid rgb(200,100,100); }
 
+#actions ul,
+#actions div {
+    -webkit-transition: .5s ease-in-out;
+    -moz-transition: .5s ease-in-out;
+    transition: .5s ease-in-out;
+    overflow: hidden;
+}
+
+#actions .history {
+    height: 3em;
+}
+
+#actions .edit {
+    height: 15em;
+}
+
+
+#actions .visible { 
+    height: 0em;
+    opacity: 0;
+}
+
 #content h1, #content h2, #content h3, #content h4 { padding: 0em 0.5em; }
 
 #content p, #content li, #struc p, #struc li, #struc div div { 
@@ -301,8 +323,6 @@ button { cursor: pointer; }
 }
 
 #eventlist {
-  width: 200%;
-  height: 470px;
   overflow: hidden;
   left: 0px;
   position: relative;
@@ -364,7 +384,6 @@ button { cursor: pointer; }
 }
 
 #events {
-    height: 75%;
 }
 
 #events .event:hover { 
@@ -375,12 +394,11 @@ button { cursor: pointer; }
 }
 
 #events .event {
+    position: relative;
+    width: 200px;
     z-index: 10;
-    position: absolute;
     display: block;
-    width: 300px;
-    height: 60px;
-    margin: 0;
+    margin: .5em 1em;
     padding: 0;
     overflow: hidden;
     -webkit-transition: .5s ease-in-out;
@@ -415,8 +433,7 @@ button { cursor: pointer; }
 }
 
 #events .row {
-    position: absolute;
-    width: 100%;
+    min-height: 450px;
     border: 1px solid rgba(0,255,0,0.1);
     border-left: 10px solid rgba(0,255,0,0.1);
     border-top-left-radius: .4em;
@@ -424,12 +441,12 @@ button { cursor: pointer; }
     margin: 1em 0 1.2em 0;
     -webkit-box-shadow: inset 1px 1px 10px black;
     -moz-box-shadow: inset 10px 10px 15px rgba(0, 0, 0, 0.7);
+    -webkit-transition: .3s ease-in-out;
+    -moz-transition: .3s ease-in-out;
 }
 #events .row:hover {
     border: 1px solid rgba(0,255,0,0.5);
     border-left: 10px solid rgba(0,255,0,0.5);
-    -webkit-transition: .3s ease-in-out;
-    -moz-transition: .3s ease-in-out;
 }
 
 #events .row h4 {
@@ -464,7 +481,9 @@ button { cursor: pointer; }
 
 #events .row svg path {
     stroke: rgba(255,255,255,0.2);
+    stroke-linejoin: round;
     stroke-width: 2px;
+    fill: none;
 }
 
 #events .row:hover svg path {
@@ -492,3 +511,22 @@ button { cursor: pointer; }
     fill: red;
 }
 
+
+
+/* d3 */
+
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.node {
+  font: 10px sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
