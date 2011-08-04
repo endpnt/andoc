@@ -3,7 +3,8 @@ andoc
 
 A collaborative web tool to enrich content.
 
-The current python/js code is a simple prototype using CherryPy, pickle, lxml and simplejson.
+The current python/js code is a simple prototype 
+using CherryPy, pickle, lxml and simplejson.
 
 $ easy_install lxml simplejson cherrypy
 $ python andoc.py
@@ -79,19 +80,18 @@ so that "Monday" or "to-day" in the context of this document would actually
 represent a real date.
 
 Since some of the steps can be done with the help of natural language
-processing, andoc aims to provide a interface to allow automatic processing of
-the data as well.
+processing, andoc aims to provide automatic processing of the data as well.
 
 Analysis
 ========
 
-The afford to enrich the documents should lead to a direct improvement for the 
-users to access and navigate the data.
+The afford to enrich the documents, should lead to a direct improvement 
+for the users:
 
 * Provide additional information about person, places and events
-  from sources like wikipedia along the data.
+  from sources like wikipedia along the data. Context matters.
 
-* Visualisation of semantic relations and presentation of related data
+* Visualisation of semantic relations, social networks, related data
   and events.
 
 * Grouping of related data based on event, place or person.
