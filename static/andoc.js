@@ -68,8 +68,8 @@ $(document).ready(function() {
     }
 
 
-    var tree = d3.layout.cluster()
-        .size([100,100]);
+    var tree = d3.layout.tree()
+        .size([0,500]);
 
     d3.json("/data/event-tree.json", function(json) {
         var nodes = tree.nodes(json);

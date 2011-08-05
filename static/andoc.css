@@ -168,6 +168,7 @@ button { cursor: pointer; }
 .docview #meta {
     left: 61%;
     width: 36%; 
+    z-index: -1;
 }
 
 #actions { 
@@ -223,7 +224,7 @@ button { cursor: pointer; }
 }
 
 #actions .edit {
-    height: 15em;
+    height: 25em;
 }
 
 
@@ -256,7 +257,7 @@ button { cursor: pointer; }
 #struc span.date:hover { background-color: rgb(200,100,100); color: white; }
 #struc span.event:hover { background-color: royalblue; color: white; }
 
-#content p:hover { background-color: #777;  border-radius: 1em; }
+#content p:hover {  }
 #content p:hover .person { border-bottom: 1px solid yellow; }
 #content p:hover .place  { border-bottom: 1px solid green; }
 #content p:hover .event  { border-bottom: 2px solid lightblue; }
@@ -323,6 +324,8 @@ button { cursor: pointer; }
 }
 
 #eventlist {
+  width: 200%;
+  height: 470px;
   overflow: hidden;
   left: 0px;
   position: relative;
@@ -384,6 +387,7 @@ button { cursor: pointer; }
 }
 
 #events {
+    height: 75%;
 }
 
 #events .event:hover { 
@@ -394,11 +398,12 @@ button { cursor: pointer; }
 }
 
 #events .event {
-    position: relative;
-    width: 200px;
+    position: absolute;
+    width: 300px;
+    height: 60px;
     z-index: 10;
     display: block;
-    margin: .5em 1em;
+    margin: 0;
     padding: 0;
     overflow: hidden;
     -webkit-transition: .5s ease-in-out;
@@ -433,7 +438,8 @@ button { cursor: pointer; }
 }
 
 #events .row {
-    min-height: 450px;
+    position: absolute;
+    width: 100%;
     border: 1px solid rgba(0,255,0,0.1);
     border-left: 10px solid rgba(0,255,0,0.1);
     border-top-left-radius: .4em;
@@ -504,6 +510,7 @@ button { cursor: pointer; }
 }
 
 #timeline svg text {
+    display: none;
     font-size: 90px; 
     font-style: normal;
     font-family: monospace;

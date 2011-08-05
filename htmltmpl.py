@@ -320,13 +320,8 @@ HTML_BODY_EVENT_LIST = """
             </div>
         </div>
         <div id="timeline">
-            <svg height="50px" width="1000px" 
-                     xmlns="http://www.w3.org/2000/svg" version="1.1"> 
-                <text><tspan>2011</tspan></text> 
-            </svg>
             <svg height="50px" width="1000px" style="margin-left: 30px;
                      xmlns="http://www.w3.org/2000/svg" version="1.1"> 
-                <text><tspan>2011</tspan></text> 
                 <path d="M  0,0   0,50" />
 
                 <path d="M  10,40  10,50" />
@@ -342,6 +337,18 @@ HTML_BODY_EVENT_LIST = """
                 <path d="M  90,40  90,50" />
 
                 <path d="M 100,0  100,50" />
+
+                <path d="M 110,40  110,50" />
+                <path d="M 120,40  120,50" />
+                <path d="M 130,40  130,50" />
+                <path d="M 140,40  140,50" />
+                
+                <path d="M 150,25  150,50" />
+
+                <path d="M 160,40  160,50" />
+                <path d="M 170,40  170,50" />
+                <path d="M 180,40  180,50" />
+                <path d="M 190,40  190,50" />
 
                 <path d="M 200,0 200,50" />
                 <path d="M 300,0 300,50" />
