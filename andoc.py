@@ -421,4 +421,12 @@ config = {'/static': {
           '/': {'tools.sessions.on': True}
          }
 cherrypy.tree.mount(Andoc(), '/', config)
-cherrypy.quickstart()
+
+if hasattr(cherrypy.engine, 'block'):
+    # 3.1 syntax
+    cherrypy.engine.start()
+    cherrypy.engine.block()
+else:
+    # 3.0 syntax
+    cherrypy.server.quickstart()
+    cherrypy.engine.start()
