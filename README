@@ -10,6 +10,8 @@ $ easy_install lxml simplejson cherrypy
 $ python andoc.py
 $ open 'http://localhost:8080'
 
+Please use a recent version of Chrome or Firefox.
+
 Idea
 ====
 
