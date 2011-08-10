@@ -148,6 +148,40 @@ button { cursor: pointer; }
     overflow: hidden;
     width: 97%; 
 }
+
+#personlist {
+    position: relative;
+}
+
+#persongraph circle {
+    stroke: rgba(255,255,255,0.1);
+    stroke-width: .2em;
+}
+
+#persongraph {
+    display: block;
+    clear: both;
+}
+
+#persongraph circle:hover {
+    stroke: rgba(255,255,255,0.2);
+    stroke-width: 1em;
+    fill: rgba(255,255,255,0.3);
+}
+
+#persongraph path:hover {
+    stroke: rgba(255,255,255,0.2);
+    stroke-width: .5em;
+}
+
+#persongraph text {
+    cursor: pointer;
+}
+
+#persongraph text:hover {
+    text-decoration: underline;
+}
+
 #meta { 
     position: absolute;
     top: 155px;
@@ -536,4 +570,32 @@ button { cursor: pointer; }
   fill: none;
   stroke: #ccc;
   stroke-width: 1.5px;
+}
+
+#graphnote {
+    display: none;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+
+    z-index: 999;
+    padding: .2em .5em;
+    border: 1px solid rgba(65,105,225,0.4);
+    border-top: 15px solid rgba(65,105,225,0.6);
+    border-top-left-radius: .4em;
+    border-top-right-radius: .4em;
+    background-color: rgba(6,6,6,1.0);
+    -webkit-box-shadow: 10px 10px 15px black;
+    -moz-box-shadow: 5px 5px 10px black;
+    -webkit-transition: .5s ease-in-out;
+    -moz-transition: .5s ease-in-out;
+    transition: .5s ease-in-out;
+}
+#graphnote h3 {
+    padding: 0; margin: 0;
+}
+
+#graphnote:hover {
+    border: 1px solid royalblue;
+    border-top: 15px solid royalblue;
 }
