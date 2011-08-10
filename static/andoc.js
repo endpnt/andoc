@@ -9,6 +9,17 @@ $(document).ready(function() {
         alert("yeah");
     });
 
+    $("#persongraph text").click(function() {
+        var gx = this.getClientRects()[0].left;
+        var gy = this.getClientRects()[0].top;
+
+        $("#graphnote").css("display", "block");
+        $("#graphnote").css("color", "white");
+        $("#graphnote").css("top", gy + "px");
+        $("#graphnote").css("left", gx + "px");
+        
+    });
+
     $("#eventlist-left").click(function() {
         curleft = curleft + $("#events").width()/2;
         if (curleft <= 0) {
@@ -67,7 +78,7 @@ $(document).ready(function() {
         loadTriples(docid);
     }
 
-
+/*
     var tree = d3.layout.tree()
         .size([0,500]);
 
@@ -85,6 +96,7 @@ $(document).ready(function() {
                 .text(function(d){ return d.name; });
 
     });
+*/
 });
 
 function markSelection(node, start, end, selclass) {
