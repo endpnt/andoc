@@ -19,10 +19,9 @@ The idea of andoc is the enrichment and analysis of a wide range of content.
 
 Like wikipdia or etherpad/gobby, it is a collaborative tool where many users
 can work on the same content at the same time. However, andoc is not about
-creating content but aims to enrich existing data with a specific set of meta
-data.
+creating content but aims to enrich existing data with a specific set of metadata.
 
-In the second step, andoc is analyzing the collected meta data and provides
+In the second step, andoc is analyzing the collected metadata and provides
 the user with dynamic visualisations to access and navigate the content.
 
 This is especially helpful with larger sets of data.
@@ -30,30 +29,40 @@ This is especially helpful with larger sets of data.
 The Model
 =========
 
-The main meta data in andoc is the concept of a "event". A event usually 
+The main metadata in andoc is the concept of an "event". An event usually 
 consists of a place and a time and agents (or persons) present at the
 event.
 
-Therefore one process in andoc is to identify these elements in the existing 
+Therefore one aspect of andoc is to identify these elements in the existing 
 data.
 
 Example
 =======
 
-Let's take a snippet from a mail conversation and enrich the content.
+Let's take a snippet from a mail conversation:
 
-[a] is a agent, [d] a date, [p] a place and [e] a event.
+    We left Warren at Dean Gate, in our way home last night, and he is
+    now on his road to town. He left his love, &c., to you, and I will
+    deliver it when we meet. Henry goes to Harden to-day in his way to
+    his Master's degree. We shall feel the loss of these two most
+    agreeable young men exceedingly, and shall have nothing to console
+    us till the arrival of the Coopers on Tuesday. As they will stay
+    here till the Monday following, perhaps Caroline will go to the
+    Ashe ball with me, though I dare say she will not.
 
-    We left <Warren[a]> at <Dean Gate[p]>, in our way home <last night[d]>, and he
-    is now on his road to <town[p]>. He left his love, &c., to you, and I will
-    deliver it when we meet. <Henry[a]> goes to <Harden[p]> <to-day[d]> in his way
+and enrich the content:
+(p) is a person, (d) a date, (l) a location and (e) an event.
+
+    We left <Warren[p]> at <Dean Gate[l]>, in our way home <last night[d]>, and he
+    is now on his road to <town[l]>. He left his love, &c., to you, and I will
+    deliver it when we meet. <Henry[p]> goes to <Harden[l]> <to-day[d]> in his way
     to his Master's degree.  We shall feel the loss of these two most agreeable
     young men exceedingly, and shall have nothing to console us till the arrival of
-    the <Coopers[a]> on <Tuesday[d]>. As they will stay here till the <Monday[d]>
-    following, perhaps <Caroline[a]> will go to the <Ashe ball[e]> with me, though
+    the <Coopers[p]> on <Tuesday[d]>. As they will stay here till the <Monday[d]>
+    following, perhaps <Caroline[p]> will go to the <Ashe ball[e]> with me, though
     I dare say she will not.
 
-(You can try this with the current prototype as well, using a fancy web-ui.)
+You can try this with the current prototype as well, using a fancy web user interface.
 
 Andoc would then know about the existence of:
 
@@ -100,7 +109,7 @@ for the users:
 
 * Timeline of events and data.
 
-* Geo/map presentation of events and data.
+* Geographical presentation (map) of events and data.
 
 All those presentations should be updated constantly as the enrichment process
 progresses.
