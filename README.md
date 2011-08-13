@@ -48,7 +48,7 @@ Let's take a snippet from a mail conversation:
 
 and enrich the content:
 
-<img src="/downloads/endpnt/andoc/tree/master/static/screenshot.png" alt="screenshot" title="enriched preview" align="center" />
+<img src="/downloads/endpnt/andoc/tree/master/data/screenshot.png" alt="screenshot" title="enriched preview" align="center" />
 
 (p) is a person, (d) a date, (l) a location and (e) an event.
 
@@ -66,23 +66,27 @@ You can try this with the current prototype as well, using a fancy web user inte
 Andoc would then know about the existence of:
 
 Agents:
+
 * Warren
 * Henry
 * Coopers
 * Caroline
 
 Places:
+
 * Dean Gate
 * Town
 * Harden
 
 Date:
+
 * last night
 * to-day
 * Monday
 * Tuesday
 
 Event:
+
 * Ashe ball
 
 In the actual interface the user should be provided with additional tools,
