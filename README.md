@@ -48,8 +48,6 @@ Let's take a snippet from a mail conversation:
 
 and enrich the content:
 
-<img src="https://github.com/endpnt/andoc/blob/master/data/event-timeline.jpg" alt="event timeline" title="enriched event timeline preview" align="center" />
-
 (p) is a person, (d) a date, (l) a location and (e) an event.
 
     We left <Warren[p]> at <Dean Gate[l]>, in our way home <last night[d]>, and he
@@ -62,6 +60,8 @@ and enrich the content:
     I dare say she will not.
 
 You can try this with the current prototype as well, using a fancy web user interface.
+It will for example enable you to see the events with associated relations on a timeline:
+![event timeline](/data/event-timeline.jpg?raw=on "enriched event timeline preview")
 
 Andoc would then know about the existence of:
 
