@@ -61,7 +61,7 @@ and enrich the content:
 
 You can try this with the current prototype as well, using a fancy web user interface.
 It will for example enable you to see the events with associated relations on a timeline:
-![event timeline](https://github.com/endpnt/andocy/data/event-timeline.jpg?raw=on "enriched event timeline preview")
+![event timeline](https://github.com/endpnt/andoc/raw/master/data/event-timeline.jpg "enriched event timeline preview")
 
 Andoc would then know about the existence of:
 
