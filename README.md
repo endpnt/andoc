@@ -48,7 +48,7 @@ Let's take a snippet from a mail conversation:
 
 and enrich the content:
 
-<img src="/downloads/endpnt/andoc/tree/master/data/event-timeline.jpg" alt="event timeline" title="enriched event timeline preview" align="center" />
+<img src="https://github.com/endpnt/andoc/blob/master/data/event-timeline.jpg" alt="event timeline" title="enriched event timeline preview" align="center" />
 
 (p) is a person, (d) a date, (l) a location and (e) an event.
 
