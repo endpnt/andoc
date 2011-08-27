@@ -130,7 +130,7 @@ button { cursor: pointer; }
 }
 
 #index, #events, #personlist, #placelist, #datelist { 
-    position: fixed;
+    position: relative;
     top: 130px;
     left: 0;
     margin: 0 0 1em 0; 
@@ -176,6 +176,7 @@ button { cursor: pointer; }
 
 #persongraph text {
     cursor: pointer;
+    text-shadow: rgba(0, 0, 0, 1) 1px 1px 5px ;
 }
 
 #persongraph text:hover {
@@ -334,6 +335,35 @@ button { cursor: pointer; }
 {
     background:#cc0000;  
     color:#fff;
+}
+
+#index.doclist ul li {
+    color: rgba(255,255,255,0.5);
+    display: block;
+    float: left;
+    min-width: 80px;
+    min-height: 100px;
+    border: 1px solid rgba(255,255,255,0.5);
+    border-top-right-radius: .8em;
+    -webkit-box-shadow: .2em .2em .5em black;
+    -moz-box-shadow: .2em .2em .5em black;
+    box-shadow: .2em .2em .5em black;
+    margin: 0 10px 5px 0;
+    -webkit-transition: .4s ease-in-out;
+    -moz-transition: .4s ease-in-out;
+    transition: .4s ease-in-out;
+    overflow: hidden;
+}
+#index.doclist ul li:hover {
+    color: rgba(255,255,255,1.0);
+    border: 1px solid rgba(255,255,255,1.0);
+    -webkit-box-shadow: .5em .5em 1em black;
+    -moz-box-shadow: .5em .5em 1em black;
+    box-shadow: .5em .5em 1em black;
+}
+
+#index.doclist h3 {
+    clear: both; 
 }
 
 #index h1, #index h2, #index h3 #index h4, 

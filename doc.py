@@ -6,3 +6,4 @@ class Document(object):
             self.content = open(filename,'r').read()
         else:
             self.content = False
+

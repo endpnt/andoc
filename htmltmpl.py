@@ -209,7 +209,7 @@ HTML_BODY_EVENT_LIST = """
         <div id="eventlist">
         <div id="eventlist-groupby-action">
             Group by
-          <button id="event-group-magic"><span>Relation</span></button>
+          <button id="event-group-magic"><span>Cluster</span></button>
           <button id="event-group-place"><span>Place</span></button>
           <button id="event-group-person"><span>Person</span></button>
         </div>
@@ -412,21 +412,35 @@ HTML_DOC_LIST = """
                 <li><a href="/date/list">Dates</a></li>
             </ul>
         </div>
+        <div id="menu">
+            <ul>
+              <li class="active"><a href="">Year</a></button>
+              <li><a href="">Month</a></li>
+              <li><a href="">Day</a></li>
+              <li><a href="">Cluster</a></li>
+              <li><a href="">Place</a></li>
+              <li><a href="">Person</a></li>
+            </ul>
+        </div>
         <div id="search">
             <form method="GET" action="/search">
                 <input type="text" name="query" value="" />
                 <button>Search</button>
             </form>
         </div>
-        <div id="index">
-            <ul>
-                <li><a href="/doc/view/1">1</a></li>
-                <li><a href="/doc/view/2">2</a></li>
-                <li><a href="/doc/view/3">3</a></li>   
-                <li><a href="/doc/view/4">4</a></li>   
-                <li><a href="/doc/view/5">5</a></li>   
-                <li><a href="/doc/view/6">6</a></li>   
-                <li><a href="/doc/view/7">7</a></li>   
+        <div id="index" class="doclist">
+            <h3>2000</h3>
+            <ul id="doc-group-1">
+                <li><a href="/doc/view/1">%s</a></li>
+                <li><a href="/doc/view/2">%s</a></li>
+                <li><a href="/doc/view/3">%s</a></li>   
+                <li><a href="/doc/view/4">%s</a></li>   
+            </ul>
+            <h3>2001</h3>
+            <ul id="doc-group-2">
+                <li><a href="/doc/view/5">%s</a></li>   
+                <li><a href="/doc/view/6">%s</a></li>   
+                <li><a href="/doc/view/7">%s</a></li>   
             </ul>
         </div>
     </div>

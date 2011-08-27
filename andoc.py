@@ -239,7 +239,7 @@ class Andoc(object):
 
     def doc(self, action='', id=None):
         if action == 'list' and id is None:
-            return HTML_HEAD + HTML_DOC_LIST
+            return HTML_HEAD + HTML_DOC_LIST 
 
         d = Document(id)
         if not d.content:
