@@ -18,7 +18,7 @@ button { cursor: pointer; }
 #menu { 
     position: absolute; 
     top: 95px;
-    height: 30px;
+    height: 25px;
     padding: 10px 0 0 0;
     margin: 0;
     left: 3%;
@@ -337,31 +337,102 @@ button { cursor: pointer; }
     color:#fff;
 }
 
-#index.doclist ul li {
+#index.doclist .group .doc {
     color: rgba(255,255,255,0.5);
+    background-color: rgba(0,0,0,0.8);
     display: block;
     float: left;
-    min-width: 80px;
-    min-height: 100px;
+    width: 80px;
+    height: 100px;
     border: 1px solid rgba(255,255,255,0.5);
     border-top-right-radius: .8em;
     -webkit-box-shadow: .2em .2em .5em black;
     -moz-box-shadow: .2em .2em .5em black;
     box-shadow: .2em .2em .5em black;
-    margin: 0 10px 5px 0;
+    margin: 0 -35px 5px 0px;
     -webkit-transition: .4s ease-in-out;
     -moz-transition: .4s ease-in-out;
     transition: .4s ease-in-out;
     overflow: hidden;
+    z-index: -1;
 }
-#index.doclist ul li:hover {
-    color: rgba(255,255,255,1.0);
+
+#index.doclist .group .doc:hover {
     border: 1px solid rgba(255,255,255,1.0);
     -webkit-box-shadow: .5em .5em 1em black;
     -moz-box-shadow: .5em .5em 1em black;
     box-shadow: .5em .5em 1em black;
+    margin: 0 20px 5px 0px;
+    width: 400px;
+    z-index: 99;
+    background-color: rgba(0,0,0,1.0);
 }
 
+#index.doclist .group .doc .meta {
+    -webkit-transition: .4s ease-in-out;
+    -moz-transition: .4s ease-in-out;
+    transition: .4s ease-in-out;
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 100px;
+    text-align: right;
+    float: left;
+}
+#index.doclist .group .doc:hover .meta {
+}
+
+#index.doclist .group .doc .preview {
+    -webkit-transition: .4s ease-in-out;
+    -moz-transition: .4s ease-in-out;
+    transition: .4s ease-in-out;
+    position: relative;
+    top:0; left: 40px;
+    width: 320px;
+    height: 100px;
+    float: left;
+    visibility: hidden;
+}
+#index.doclist .group .doc:hover .preview {
+    visibility: visible;
+}
+#index.doclist .group .doc .preview * {
+    display: inline;
+}
+
+#index.doclist .group .doc .meta span{
+    display: block;
+}
+#index.doclist .group .doc .meta .person {
+    color: purple;
+    border-left: 10px solid purple;
+}
+
+#index.doclist .group .doc .meta .event {
+    color: royalblue;
+    border-left: 16px solid royalblue;
+}
+
+#index.doclist .group .doc .meta .date {
+    color: rgb(200,100,100);
+    border-left: 25px solid rgb(200,100,100);
+}
+
+#index.doclist .group .doc .meta .place{
+    color: green; 
+    border-left: 5px solid green;
+}
+
+#index.doclist .group .doc .meta .status{
+    border-left: 5px solid white;
+}
+
+
+#struc span.person:hover { background-color: purple; color: white; }
+#struc span.place:hover { background-color: green; color: white; }
+#struc span.date:hover { background-color: rgb(200,100,100); color: white; }
+#struc span.event:hover { background-color: royalblue; color: white; }
 #index.doclist h3 {
     clear: both; 
 }
