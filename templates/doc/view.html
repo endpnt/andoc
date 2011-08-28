@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block menu %}
+<div id="menu">
+    <ul>
+        <li><a href="/doc/raw/{{ doc.id }}">Structure</a>
+        <li><a href="/doc/struc/{{ doc.id }}">Semantic</a>
+        <li class="active"><a href="/doc/view/{{ doc.id }}">Content</a>
+    </ul>
+</div>
+{% endblock %}
+{% block content %}
+<div id="content">{{ content }}</div>
+<div id="meta">{{ meta }}</div>
+{% endblock %}

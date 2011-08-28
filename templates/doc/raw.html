@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block menu %}
+<div id="menu">
+    <ul>
+        <li class="active"><a href="/doc/raw/{{ doc.id }}">Structure</a>
+        <li><a href="/doc/struc/{{ doc.id }}">Semantic</a>
+        <li><a href="/doc/view/{{ doc.id }}">Content</a>
+    </ul>
+</div>
+{% endblock %}
+{% block content %}
+<div id="actions">
+    <h3 id="action">Actions</h3>
+    <div class="edit">
+        <p>Select area of the orginal document and apply structure information</p>
+        <button id="head1">Heading 1</button>
+        <button id="head2">Heading 2</button>
+        <button id="head3">Heading 3</button>
+        <button id="head4">Heading 4</button>
+        <button id="para">Paragraph</button>
+        <button id="span">span</button>
+        <button id="div">div</button>
+        <button id="li">List Element</button>
+        <button id="ul">List</button>
+        <button id="selections">Changes</button>
+    </div>
+    <h3 id="history">History</h3>
+    <ul class="history visible">
+        <li>rev. 1</li>
+        <li>rev. 2</li>
+    </ul>
+</div>
+<div id="hlaction"></div>
+<div id="raw">
+    <table>
+        <tbody>
+        <tr>
+            <th>Original</th>
+            <th>Marked</th>
+        </tr>
+        <tr>
+            <td><pre id="doc">{{ doc.content }}</pre></td>
+            <td><pre id="hldoc">{{ doc.content }}</pre></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

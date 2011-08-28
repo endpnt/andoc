@@ -21,11 +21,13 @@ from urlparse import urlsplit
 from doc import Document
 from selection import TextSelection
 from htmltmpl import *
+from jinja2 import Template, Environment, FileSystemLoader
 
 CURDIR = os.path.dirname(os.path.abspath(__file__))
 STATICDIR = CURDIR + "/static/"
 SELECTIONFILE = CURDIR + "/selections"
 TRIPLEFILE = CURDIR + "/triples"
+TEMPLATES_DIR = CURDIR + "/templates/"
 
 NAMESPACE = { 'http://www.w3.org/1999/xhtml/#h1':  'h1', 
               'http://www.w3.org/1999/xhtml/#h2':  'h2',
@@ -53,6 +55,7 @@ class Andoc(object):
         self._selections = self._load_data(SELECTIONFILE)
         self._triples = self._load_data(TRIPLEFILE)
         self._documents = [1,2,3]
+        self._env = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
 
         if hasattr(cherrypy.engine, 'subscribe'): # CherryPy >= 3.1
             cherrypy.engine.subscribe('stop', self._save_data)
@@ -97,7 +100,8 @@ class Andoc(object):
 
 
     def default(self):
-        return HTML_HEAD + HTML_BODY_INDEX
+        default = self._env.get_template('default.html')
+        return default.render(title='Andoc Default')
 	
     default.exposed = True
 
@@ -239,18 +243,23 @@ class Andoc(object):
 
     def doc(self, action='', id=None):
         if action == 'list' and id is None:
-            return HTML_HEAD + HTML_DOC_LIST 
+            list_tmpl = self._env.get_template('doc/list.html')
+            return list_tmpl.render(
+                title='Document List', 
+                doclist=[1,2,3,4,5,6,7])
 
         d = Document(id)
         if not d.content:
             return "No such document"
 
         if action == 'raw':
-            return HTML_HEAD + HTML_BODY_RAW % (d.id, d.id, d.id, 
-                                                d.content, d.content)
+            raw_tmpl = self._env.get_template('doc/raw.html')
+            return raw_tmpl.render(title='Raw Document', doc = d)
 
         elif action == 'struc':
+            struc_tmpl = self._env.get_template('doc/struc.html')
             elements = self._render(d.id)
+            # TODO migrate this to jinja or keep lxml?
             if elements:
                 html = []
                 for start, end, sel in elements:
@@ -263,13 +272,18 @@ class Andoc(object):
                         else:
                             html.append(b.PRE(d.content[start:end], cclass))
 
-                return HTML_HEAD + HTML_BODY_STRUC % (
-                        d.id, d.id, d.id, lxml.html.tostring(b.DIV(*html)))
+                return struc_tmpl.render(
+                        title = "Document Semantic",
+                        doc = d, 
+                        struc = lxml.html.tostring(b.DIV(*html)))
             else:
-                return HTML_HEAD + HTML_BODY_STRUC % (
-                        d.id, d.id, d.id, 'Nothing here jet')
+                return struc_tmpl.render(
+                        title = "Document Semantic",
+                        doc = d, 
+                        struc = 'Nothing here jet')
 
         elif action == 'view':
+            view_tmpl = self._env.get_template('doc/view.html')
             elements = self._render(d.id)
             if elements:
                 content_html = []
@@ -301,9 +315,17 @@ class Andoc(object):
                 content = lxml.html.tostring(b.DIV(*content_html))
                 meta = lxml.html.tostring(b.DIV(*meta_html))
 
-                return HTML_HEAD + HTML_BODY_VIEW % (d.id, d.id, d.id, content, meta)
+                return view_tmpl.render(
+                        title = 'Document View',
+                        doc = d, 
+                        content = content, 
+                        meta = meta)
             else:
-                return HTML_HEAD + HTML_BODY_VIEW % (d.id, d.id, d.id, 'Nothing to render','')
+                return view_tmpl.render(
+                        title = 'Document View',
+                        doc = d,
+                        content = 'Nothing to render',
+                        meta = '')
         else:
             return "Unknown action"
 

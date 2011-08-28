@@ -1,0 +1,51 @@
+<!DOCTYPE html> 
+<html>
+{% block head %}
+<head>
+    <title>{{ title }}</title>
+    <link rel="stylesheet" type="text/css" href="/static/andoc.css" />
+    <script type="text/javascript" src="/static/jquery-1.5.min.js"></script>
+    <script type="text/javascript" src="/static/json2.js"></script>
+    <script type="text/javascript" src="/static/d3.min.js"></script>
+    <script type="text/javascript" src="/static/d3.layout.min.js"></script>
+    <script type="text/javascript" src="/static/andoc.js"></script>
+</head>
+{% endblock %}
+<body>
+    {% block wrapper %}
+    <div id="wrapper">
+        {% block explore %}
+        <div id="explore">
+            <ul>
+                <li><a href="/">Index</a></li>
+                <li><a href="/doc/list">Documents</a></li>
+                <li><a href="/event/list">Events</a></li>
+                <li><a href="/place/list">Places</a></li>
+                <li><a href="/person/list">Persons</a></li>
+                <li><a href="/date/list">Dates</a></li>
+            </ul>
+        </div>
+        {% endblock %}
+        {% block menu %}
+        <div id="menu">
+            <ul>
+                <li><a href="/doc/raw/%s">Structure</a>
+                <li><a href="/doc/struc/%s">Semantic</a>
+                <li><a href="/doc/view/%s">Content</a>
+            </ul>
+        </div>
+        {% endblock %}
+        {% block search %}
+        <div id="search">
+            <form method="GET" action="/search">
+                <input type="text" name="query" value="" />
+                <button>Search</button>
+            </form>
+        </div>
+        {% endblock %}
+    </div>
+    {% endblock %}
+{% block content %}
+{% endblock %}
+</body>
+</html>

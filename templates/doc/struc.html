@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block menu %}
+<div id="menu">
+    <ul>
+        <li><a href="/doc/raw/{{ doc.id }}">Structure</a>
+        <li class="active"><a href="/doc/struc/{{ doc.id }}">Semantic</a>
+        <li><a href="/doc/view/{{ doc.id }}">Content</a>
+    </ul>
+</div>
+{% endblock %}
+{% block content %}
+<div id="struc">
+    {{ struc }}
+</div>
+<div id="actions">
+    <h3>Actions</h3>
+    <p>Select element or area and apply semantic information</p>
+    <button id="person">Person</button>
+    <button id="place">Place</button>
+    <button id="event">Event</button>
+    <button id="date">Date</button>
+    <h3>History</h3>
+    <ul class="history">
+    </ul>
+</div>
+{% endblock %}
