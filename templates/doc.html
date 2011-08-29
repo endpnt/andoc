@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block explore %}
+<div id="explore">
+    <ul>
+        <li><a href="/">Index</a></li>
+        <li class="active"><a href="/doc/list">Documents</a></li>
+        <li><a href="/event/list">Events</a></li>
+        <li><a href="/place/list">Places</a></li>
+        <li><a href="/person/list">Persons</a></li>
+        <li><a href="/date/list">Dates</a></li>
+    </ul>
+</div>
+{% endblock %}
+{% block menu %}
+<div id="menu">
+    <ul>
+        <li class="active"><a href="">Year</a></button>
+        <li><a href="">Month</a></li>
+        <li><a href="">Day</a></li>
+        <li><a href="">Cluster</a></li>
+        <li><a href="">Place</a></li>
+        <li><a href="">Person</a></li>
+    </ul>
+</div>
+{% endblock %}

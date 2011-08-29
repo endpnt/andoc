@@ -106,13 +106,15 @@ class Andoc(object):
     default.exposed = True
 
     def search(self,query):
-        return HTML_HEAD + "TODO"
+        search_tmpl = self._env.get_template('search/result.html')
+        return search_tmpl.render(title='Andoc Search', result='TODO')
 
     search.exposed = True
 
     def event(self, action, id=None):
         if action == 'list':
-            return HTML_HEAD + HTML_BODY_EVENT_LIST
+            event_list_tmpl = self._env.get_template('event/list.html')
+            return event_list_tmpl.render(title='Events')
 
         return ""
 
