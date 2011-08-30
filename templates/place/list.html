@@ -1,0 +1,11 @@
+{% extends 'place.html' %}
+{% block content %}
+<div id="placelist">
+    <p>TODO: put fancy map here</p>
+    <ul>
+    {% for place in places %}
+        <li><a href="{{ place.uri }}">{{ place.name }}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}

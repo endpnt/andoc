@@ -20,7 +20,6 @@ from urlparse import urlsplit
 
 from doc import Document
 from selection import TextSelection
-from htmltmpl import *
 from jinja2 import Template, Environment, FileSystemLoader
 
 CURDIR = os.path.dirname(os.path.abspath(__file__))
@@ -122,54 +121,51 @@ class Andoc(object):
 
     def person(self, action):
         if action == 'list':
+            person_list_tmpl = self._env.get_template('person/list.html')
             html = []
-            persons = set()
+            persons = []
             for t in self._triples:
                 sel, sub, pre, obj, start, end = t
                 if pre == "person":
-                    persons.add(obj)
-            
-            for p in sorted(persons):
-                node = b.LI( b.A({'href': ''}, p) )
-                html.append(node)
+                    persons.append({'uri':sub, 'name':obj})
 
-            return HTML_HEAD + HTML_PERSON_LIST % lxml.html.tostring(b.UL(*html))
+            return person_list_tmpl.render(
+                    title = 'Persons', 
+                    persons = sorted(persons))
         else:
             return ""
     person.exposed = True
 
     def place(self, action):
         if action == 'list':
+            place_list_tmpl = self._env.get_template('place/list.html')
             html = []
-            places = set()
+            places = []
             for t in self._triples:
                 sel, sub, pre, obj, start, end = t
                 if pre == "place":
-                    places.add(obj)
+                    places.append({'uri': sub, 'name': obj})
 
-            for p in sorted(places):
-                node = b.LI(p)
-                html.append(node)
-
-            return HTML_HEAD + HTML_PLACE_LIST % lxml.html.tostring(b.UL(*html))
+            return place_list_tmpl.render(
+                    title = 'Places',
+                    places = sorted(places))
         else:
             return ""
     place.exposed = True
 
     def date(self, action):
         if action == 'list':
+            date_list_tmpl = self._env.get_template('date/list.html')
             html = []
-            dates = set()
+            dates = []
             for t in self._triples:
                 sel, sub, pre, obj, start, end = t
                 if pre == "date":
-                    dates.add(obj)
+                    dates.append({'uri': sub, 'name': obj})
 
-            for p in sorted(dates):
-                node = b.LI(p)
-                html.append(node)
-
-            return HTML_HEAD + HTML_DATE_LIST % lxml.html.tostring(b.UL(*html))
+            return date_list_tmpl.render(
+                    title = 'Dates',
+                    dates = sorted(dates))
         else:
             return ""
     date.exposed = True

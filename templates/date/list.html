@@ -1,0 +1,11 @@
+{% extends 'date.html' %}
+{% block content %}
+<div id="datelist">
+    <p>TODO: put fancy timeline here</p>
+    <ul>
+    {% for date in dates %}
+        <li><a href="{{ date.uri }}">{{ date.name }}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}

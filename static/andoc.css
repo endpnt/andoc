@@ -457,6 +457,9 @@ button { cursor: pointer; }
     margin: 0 0.5em 0.5em 0;
     min-width: 200px;
 }
+#personlist p, #placelist p, #datelist p {
+    clear: both;
+}
 
 #eventlist {
   width: 200%;
