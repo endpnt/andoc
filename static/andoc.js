@@ -147,7 +147,7 @@ function drawSelections(selections) {
 }
 
 function loadTextSelections(id) {
-    $.getJSON('/selection/list/' + id, function(data) {
+    $.getJSON('/rest/selection/list/' + id, function(data) {
         console.log(data);
         var selections = [];
         $.each(data, function(key, value) {
@@ -172,7 +172,7 @@ function sendSelection(type) {
                   ref: "http://www.w3.org/1999/xhtml/#" + type };
     $.ajax({
         type: 'POST',
-        url: "/selection/add/" + docid,
+        url: "/rest/selection/add/" + docid,
         contentType: "application/json; charset=utf-8",
         processData: false,
         dataType: "json",
