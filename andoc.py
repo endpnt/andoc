@@ -14,18 +14,22 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import cherrypy, simplejson, lxml, os, pickle, re, string
+import cherrypy, simplejson, re, string
+from os import path
+from lxml import html as lxhtml
 from lxml.html import builder as b
 from urlparse import urlsplit
 
 from doc import Document
-from selection import TextSelection
+from selection import TextSelections, TextSelection
+from selection import HtmlSelections, HtmlSelection
+from metadata import Event, Person, Location, Date
+from metadata import Events, Persons, Locations, Dates
 from jinja2 import Template, Environment, FileSystemLoader
+from redis import Redis
 
-CURDIR = os.path.dirname(os.path.abspath(__file__))
+CURDIR = path.dirname(path.abspath(__file__))
 STATICDIR = CURDIR + "/static/"
-SELECTIONFILE = CURDIR + "/selections"
-TRIPLEFILE = CURDIR + "/triples"
 TEMPLATES_DIR = CURDIR + "/templates/"
 
 NAMESPACE = { 'http://www.w3.org/1999/xhtml/#h1':  'h1', 
@@ -38,51 +42,26 @@ NAMESPACE = { 'http://www.w3.org/1999/xhtml/#h1':  'h1',
               'http://www.w3.org/1999/xhtml/#li':  'li',
               'http://www.w3.org/1999/xhtml/#span':'span' }
 
-RE_CLASS = r'^(' + string.join(NAMESPACE.values(), '|') +  ')\.s([0-9]+)e([0-9]+)$'
+RE_CLASS = r'^(%s)\.s([0-9]+)e([0-9]+)$' % string.join(NAMESPACE.values(), '|')
 
 def jsonify_tool_callback(*args, **kwargs):
     response = cherrypy.response
     response.headers['Content-Type'] = 'application/json'
     response.body = simplejson.JSONEncoder().iterencode(response.body)
 
-cherrypy.tools.jsonify = cherrypy.Tool('before_finalize', jsonify_tool_callback, priority=30)
+cherrypy.tools.jsonify = cherrypy.Tool('before_finalize', 
+    jsonify_tool_callback, priority=30)
 
 class Andoc(object):
 
     def __init__(self):
         self._re_class = re.compile(RE_CLASS)
-        self._selections = self._load_data(SELECTIONFILE)
-        self._triples = self._load_data(TRIPLEFILE)
         self._documents = [1,2,3]
         self._env = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
-
-        if hasattr(cherrypy.engine, 'subscribe'): # CherryPy >= 3.1
-            cherrypy.engine.subscribe('stop', self._save_data)
-        else:
-            cherrypy.engine.on_stop_engine_list.append(self._save_data)
-
-    def _load_data(self, filename):
-        if os.path.exists(filename):
-            cfo = open(filename, 'rb')
-            try:
-                val = pickle.load(cfo)
-            finally:
-                cfo.close()
-
-            return val
-        else:
-            return []
-
-    def _save_data(self):
-        # save data back to the pickle file
-        cfo = open(SELECTIONFILE, 'wb')
-        tfo = open(TRIPLEFILE, 'wb')
-        try:
-            pickle.dump(self._selections, cfo)
-            pickle.dump(self._triples, tfo)
-        finally:
-            cfo.close()
-            tfo.close()
+        self._redis = Redis()
+        self._txt_selections = TextSelections(self._redis)
+        self._html_selections = HtmlSelections(self._redis)
+        self._triples = []
 
     #helper function to read url string and return selection object
     def _selection_by_url(self, id, url):
@@ -122,12 +101,10 @@ class Andoc(object):
     def person(self, action):
         if action == 'list':
             person_list_tmpl = self._env.get_template('person/list.html')
-            html = []
             persons = []
-            for t in self._triples:
+            for t in self._triples.from_predicate('person'):
                 sel, sub, pre, obj, start, end = t
-                if pre == "person":
-                    persons.append({'uri':sub, 'name':obj})
+                persons.append({'uri':sub, 'name':obj})
 
             return person_list_tmpl.render(
                     title = 'Persons', 
@@ -170,54 +147,6 @@ class Andoc(object):
             return ""
     date.exposed = True
 
-    @cherrypy.tools.jsonify()
-    def selection(self,action,id):
-        d = Document(id)
-        if not d.content:
-            return "No such document"
-
-        if action == 'list':
-            subselections = []
-            print self._selections
-            for sel in self._selections:
-                if sel.docid == d.id:
-                    subselections.append((sel.start, sel.end, sel.ref))
-            print sorted(subselections, reverse=True)
-            return sorted(subselections, reverse=True)
-
-        elif action == 'add':
-            j = self.get_json()
-            start = j.get('start',0)
-            end = j.get('end',0)
-            ref = j.get('ref','')
-
-            if start == 0 and end == 0:
-                return "Nothing selected"
-
-            if len(d.content[start:end+1].strip()) == 0:
-                return "Empty string selected"
-
-            txtsel = TextSelection(d.id, start, end+1, ref)
-            self._selections.append(txtsel)
-            
-            return d.content[start:end+1]
-
-        elif action == 'delete':
-            j = self.get_json()
-            start = j.get('start',0)
-            end = j.get('end',0)
-            ref = j.get('ref','')
-
-            if start == 0 and end == 0:
-                return "Nothing selected"
-
-            return "OK"
-        elif action == 'update':
-            return "OK"
-        else:
-            return "Nothing to do"
-
-    selection.exposed = True
 
     @cherrypy.tools.jsonify()
     def triples(self,action,id):
@@ -227,10 +156,9 @@ class Andoc(object):
 
         if action == 'list':
             tl = set()
-            for t in self._triples:
+            for t in self._triples.by_document_id(d.id):
                 sel, sub, pre, obj, start, end = t
-                if sel.docid == d.id:
-                    tl.add((sub, start, end, pre, obj))
+                tl.add((sub, start, end, pre, obj))
 
             print sorted(tl, reverse=True)
             return sorted(tl, reverse=True)
@@ -273,7 +201,7 @@ class Andoc(object):
                 return struc_tmpl.render(
                         title = "Document Semantic",
                         doc = d, 
-                        struc = lxml.html.tostring(b.DIV(*html)))
+                        struc = lxhtml.tostring(b.DIV(*html)))
             else:
                 return struc_tmpl.render(
                         title = "Document Semantic",
@@ -310,8 +238,8 @@ class Andoc(object):
                     meta_html.append(b.H3(pre))
                     meta_html.append(b.UL(*metali))
 
-                content = lxml.html.tostring(b.DIV(*content_html))
-                meta = lxml.html.tostring(b.DIV(*meta_html))
+                content = lxhtml.tostring(b.DIV(*content_html))
+                meta = lxhtml.tostring(b.DIV(*meta_html))
 
                 return view_tmpl.render(
                         title = 'Document View',
@@ -344,6 +272,11 @@ class Andoc(object):
         start = j.get('start',0)
         end = j.get('end',0)
         
+        scheme, host, path, query, param = urlsplit(sub)
+
+        h = HtmlSelection(d.id, node, start, end, rel)
+        h.save(self._redis)
+
         print sub, pre, obj, start, end
         sel = self._selection_by_url(d.id, sub)
 
@@ -366,10 +299,9 @@ class Andoc(object):
             return False
 
         selections = []
-        for sel in self._selections:
-            if sel.docid == d.id:
-                t = (sel.start, sel.end, sel)
-                selections.append(t)
+        for sel in self._txt_selections.from_document_id(d.id):
+            t = (sel.start, sel.end, sel)
+            selections.append(t)
 
         if len(selections) == 0:
             return False
@@ -432,6 +364,103 @@ class Andoc(object):
         return elements
 
 
+class Rest(object):
+    def __init__(self):
+        self._redis = Redis()
+        self._txt_selections = TextSelections(self._redis)
+        self._html_selections = HtmlSelections(self._redis)
+
+    def get_json(self):
+        cl = cherrypy.request.headers['Content-Length']
+        rawbody = cherrypy.request.body.read(int(cl))
+        return simplejson.loads(rawbody)
+
+    @cherrypy.tools.jsonify()
+    def person(self, action):
+        json = self.get_json()
+        if action == 'add':
+            p = Person()
+            return p.save()
+
+    person.exposed = True
+
+    @cherrypy.tools.jsonify()
+    def event(self, action):
+        json = self.get_json()
+        if action == 'add':
+            e = Event()
+            return e.save()
+
+    event.exposed = True
+
+    @cherrypy.tools.jsonify()
+    def location(self, action):
+        json = self.get_json()
+        if action == 'add':
+            l = Location()
+            return l.save()
+
+    location.exposed = True
+
+    @cherrypy.tools.jsonify()
+    def date(self, action):
+        json = self.get_json()
+        if action == 'add':
+            d = Date()
+            return d.save()
+
+    date.exposed = True
+
+    @cherrypy.tools.jsonify()
+    def selection(self,action,id):
+        d = Document(id)
+        if not d.content:
+            return "No such document"
+
+        if action == 'list':
+            selections = []
+            for s in self._txt_selections.from_document_id(d.id):
+                t = (s.start, s.end, s.ref)
+                selections.append(t)
+            print sorted(selections, reverse=True)
+            return sorted(selections, reverse=True)
+
+        elif action == 'add':
+            j = self.get_json()
+            start = j.get('start',0)
+            end = j.get('end',0)
+            ref = j.get('ref','')
+
+            if start == 0 and end == 0:
+                return "Nothing selected"
+
+            if len(d.content[start:end+1].strip()) == 0:
+                return "Empty string selected"
+
+            txtsel = TextSelection(d.id, start, end+1, ref)
+            txtsel.save(self._redis)
+            del txtsel
+            
+            return d.content[start:end+1]
+
+        elif action == 'delete':
+            j = self.get_json()
+            start = j.get('start',0)
+            end = j.get('end',0)
+            ref = j.get('ref','')
+
+            if start == 0 and end == 0:
+                return "Nothing selected"
+
+            return "OK"
+        elif action == 'update':
+            return "OK"
+        else:
+            return "Nothing to do"
+
+    selection.exposed = True
+
+    
 config = {'/static': {
             'tools.staticdir.on': True, 
             'tools.staticdir.dir': STATICDIR },
@@ -441,6 +470,7 @@ config = {'/static': {
           '/': {'tools.sessions.on': True}
          }
 cherrypy.tree.mount(Andoc(), '/', config)
+cherrypy.tree.mount(Rest(), '/rest/', config)
 
 if hasattr(cherrypy.engine, 'block'):
     # 3.1 syntax
