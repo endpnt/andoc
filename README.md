@@ -2,10 +2,7 @@
 
 A collaborative web tool to enrich content.
 
-The current python/js code is a simple prototype 
-using CherryPy, pickle, lxml and simplejson.
-
-    $ easy_install lxml simplejson cherrypy
+    $ easy_install lxml simplejson cherrypy jinja2 redis
     $ python andoc.py
     $ open 'http://localhost:8080'
 
