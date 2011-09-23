@@ -367,6 +367,7 @@ class Rest(object):
             tsel = TextSelection(docid = d.id)
             tsel.from_url(sub)
 
+            sub = '%s/t%se%s' % (sub, start, end)
             trip = Triple(sub, pre, obj)
             tid = trip.save(self._redis)
 
@@ -384,8 +385,19 @@ class Rest(object):
                 for t in self._triples.from_subject(h.node):
                     tl.add((t.subject, h.start, h.end, t.pre, t.object))
 
-            print sorted(tl, reverse=True)
-            return sorted(tl, reverse=True)
+            # JS fails to apply the selection with DOM errors, 
+            # if they come in the wrong order.
+            # Sort by subject (the DOM node as url)
+            # and the start of the selection inside the node
+            def subject_sort(t):
+                scheme, netloc, path, query, fragment = urlsplit(t[0])
+                return (fragment.split('/')[0], t[1])
+
+            # Reversed since we need to build the page bottom to top
+            # in JS. This avoids problems with the offset inside
+            # a DOM node.
+            print sorted(tl, reverse=True, key=subject_sort)
+            return sorted(tl, reverse=True, key=subject_sort)
         else:
             return "Nothing to do"
 

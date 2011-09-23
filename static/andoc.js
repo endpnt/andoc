@@ -276,7 +276,8 @@ function getNodePath(el) {
 }
 
 function getNodeFromPath(path) {
-    var className = path.split('#')[1].split('.')[1];
+    console.log(path);
+    var className = path.split('#')[1].split('.')[1].split('/')[0];
     console.log(className);
     
     return document.getElementsByClassName(className)[0];
