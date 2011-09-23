@@ -220,7 +220,7 @@ function sendTriple(pre) {
     console.log(triple);
     $.ajax({
         type: 'POST',
-        url: "/triple/" + docid,
+        url: "/rest/triple/add/" + docid,
         contentType: "application/json; charset=utf-8",
         processData: false,
         dataType: "text",
@@ -232,7 +232,7 @@ function sendTriple(pre) {
 }
 
 function loadTriples(id) {
-    $.getJSON('/triples/list/' + id, function(data) {
+    $.getJSON('/rest/triple/list/' + id, function(data) {
         var triples = [];
         $.each(data, function(key, value) {
             var triple = new Object();
