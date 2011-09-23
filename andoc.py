@@ -380,9 +380,9 @@ class Rest(object):
 
         if action == 'list':
             tl = set()
-            for t in self._triples.by_document_id(d.id):
-                sel, sub, pre, obj, start, end = t
-                tl.add((sub, start, end, pre, obj))
+            for h in self._html_selections.from_document_id(d.id):
+                for t in self._triples.from_subject(h.node):
+                    tl.add((t.subject, h.start, h.end, t.pre, t.object))
 
             print sorted(tl, reverse=True)
             return sorted(tl, reverse=True)

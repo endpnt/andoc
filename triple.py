@@ -1,12 +1,3 @@
-NEXT_TRIPLE = 'next.triple'
-NEXT_SUBJECT = 'next.triple.subject'
-NEXT_PRE = 'next.triple.pre'
-NEXT_OBJECT = 'next.triple.object'
-TRIPLE = 'triple:%s'
-TRIPLE_SUBJECT = 'triple:subject:%s'
-TRIPLE_PRE = 'triple:pre:%s'
-TRIPLE_OBJECT = 'triple:object:%s'
-
 class Triple(object):
     def __init__(self, subject = None, pre = None, object = None):
         self.subject = subject
@@ -19,28 +10,28 @@ class Triple(object):
     
     def save(self, redis):
         if self._valid():
-            triple_id = redis.incr(NEXT_TRIPLE)
-            subject_id = redis.incr(NEXT_SUBJECT)
-            pre_id = redis.incr(NEXT_PRE)
-            object_id = redis.incr(NEXT_OBJECT)
-            pipe = redis.pipeline()
-            pipe.set(TRIPLE_SUBJECT % subject_id , self.subject)
-                
-            result = pipe.execute()
-            print result
-            return triple_id
+            return redis.hsetnx(self.subject, self.pre, self.object)
         else:
             return False
-        return True
 
+    def load(self, redis, subject):
+        self.subject = subject
+        self.pre, self.object = redis.hgetall(subject)
 
 class Triples(object):
     def __init__(self, redis):
         self._redis = redis
 
-    def by_subject(self, subject):
-        pass
+    def from_subject(self, subject):
+        result = []
+        r = self._redis.hgetall(subject)
+        if r == 0:
+            return result
+        for pre, object in r.iteritems():
+            t = Triple(subject, pre, object)
+            result.append(t)
+        return result
 
-    def by_document_id(self, id):
+    def from_document_id(self, id):
         return []
 
