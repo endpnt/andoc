@@ -21,28 +21,14 @@ from lxml.html import builder as b
 from urlparse import urlsplit
 
 from doc import Document
-from selection import TextSelections, TextSelection
-from selection import HtmlSelections, HtmlSelection
-from metadata import Event, Person, Location, Date
-from metadata import Events, Persons, Locations, Dates
+from selection import *
+from triple import *
 from jinja2 import Template, Environment, FileSystemLoader
 from redis import Redis
 
 CURDIR = path.dirname(path.abspath(__file__))
 STATICDIR = CURDIR + "/static/"
 TEMPLATES_DIR = CURDIR + "/templates/"
-
-NAMESPACE = { 'http://www.w3.org/1999/xhtml/#h1':  'h1', 
-              'http://www.w3.org/1999/xhtml/#h2':  'h2',
-              'http://www.w3.org/1999/xhtml/#h3':  'h3',
-              'http://www.w3.org/1999/xhtml/#h4':  'h4',
-              'http://www.w3.org/1999/xhtml/#p':   'p',
-              'http://www.w3.org/1999/xhtml/#ul':  'ul',
-              'http://www.w3.org/1999/xhtml/#div': 'div',
-              'http://www.w3.org/1999/xhtml/#li':  'li',
-              'http://www.w3.org/1999/xhtml/#span':'span' }
-
-RE_CLASS = r'^(%s)\.s([0-9]+)e([0-9]+)$' % string.join(NAMESPACE.values(), '|')
 
 def jsonify_tool_callback(*args, **kwargs):
     response = cherrypy.response
@@ -55,27 +41,12 @@ cherrypy.tools.jsonify = cherrypy.Tool('before_finalize',
 class Andoc(object):
 
     def __init__(self):
-        self._re_class = re.compile(RE_CLASS)
         self._documents = [1,2,3]
         self._env = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
         self._redis = Redis()
         self._txt_selections = TextSelections(self._redis)
         self._html_selections = HtmlSelections(self._redis)
         self._triples = []
-
-    #helper function to read url string and return selection object
-    def _selection_by_url(self, id, url):
-        scheme, host, path, query, param = urlsplit(url)
-        m = re.search(self._re_class, param)
-        if m is not None:
-            htmlelem = m.group(1)
-            start = int(m.group(2))
-            end = int(m.group(3))
-            for sel in self._selections:
-                if sel.docid == id and sel.start == start and sel.end == end:
-                    return sel
-        return False
-
 
     def default(self):
         default = self._env.get_template('default.html')
@@ -147,25 +118,6 @@ class Andoc(object):
             return ""
     date.exposed = True
 
-
-    @cherrypy.tools.jsonify()
-    def triples(self,action,id):
-        d = Document(id)
-        if not d.content:
-            return "No such document"
-
-        if action == 'list':
-            tl = set()
-            for t in self._triples.by_document_id(d.id):
-                sel, sub, pre, obj, start, end = t
-                tl.add((sub, start, end, pre, obj))
-
-            print sorted(tl, reverse=True)
-            return sorted(tl, reverse=True)
-        else:
-            return "Nothing to do"
-
-    triples.exposed = True
 
     def doc(self, action='', id=None):
         if action == 'list' and id is None:
@@ -257,37 +209,6 @@ class Andoc(object):
 
     doc.exposed = True
 
-    def triple(self,id):
-        if int(id) == 0:
-            return "No such document"
-
-        d = Document(id)
-        if not d.content:
-            return "No such document"
-
-        j = self.get_json()
-        sub = j.get('s','')
-        pre = j.get('p','')
-        obj = j.get('o','')
-        start = j.get('start',0)
-        end = j.get('end',0)
-        
-        scheme, host, path, query, param = urlsplit(sub)
-
-        h = HtmlSelection(d.id, node, start, end, rel)
-        h.save(self._redis)
-
-        print sub, pre, obj, start, end
-        sel = self._selection_by_url(d.id, sub)
-
-        t = (sel, sub, pre, obj, start, end)
-        self._triples.append(t)
-        s = sel.start + start
-        e = sel.start + end
-        return d.content[s:e]
-
-    triple.exposed = True
-
     def get_json(self):
         cl = cherrypy.request.headers['Content-Length']
         rawbody = cherrypy.request.body.read(int(cl))
@@ -369,47 +290,12 @@ class Rest(object):
         self._redis = Redis()
         self._txt_selections = TextSelections(self._redis)
         self._html_selections = HtmlSelections(self._redis)
+        self._triples = Triples(self._redis)
 
     def get_json(self):
         cl = cherrypy.request.headers['Content-Length']
         rawbody = cherrypy.request.body.read(int(cl))
         return simplejson.loads(rawbody)
-
-    @cherrypy.tools.jsonify()
-    def person(self, action):
-        json = self.get_json()
-        if action == 'add':
-            p = Person()
-            return p.save()
-
-    person.exposed = True
-
-    @cherrypy.tools.jsonify()
-    def event(self, action):
-        json = self.get_json()
-        if action == 'add':
-            e = Event()
-            return e.save()
-
-    event.exposed = True
-
-    @cherrypy.tools.jsonify()
-    def location(self, action):
-        json = self.get_json()
-        if action == 'add':
-            l = Location()
-            return l.save()
-
-    location.exposed = True
-
-    @cherrypy.tools.jsonify()
-    def date(self, action):
-        json = self.get_json()
-        if action == 'add':
-            d = Date()
-            return d.save()
-
-    date.exposed = True
 
     @cherrypy.tools.jsonify()
     def selection(self,action,id):
@@ -461,6 +347,50 @@ class Rest(object):
     selection.exposed = True
 
     
+    @cherrypy.tools.jsonify()
+    def triple(self,action,id):
+        d = Document(id)
+        if not d.content:
+            return "No such document"
+
+        if action == 'add':
+            j = self.get_json()
+            sub = j.get('s','')
+            pre = j.get('p','')
+            obj = j.get('o','')
+            start = j.get('start',0)
+            end = j.get('end',0)
+            
+            scheme, host, path, query, param = urlsplit(sub)
+
+            print sub, pre, obj, start, end
+            tsel = TextSelection(docid = d.id)
+            tsel.from_url(sub)
+
+            trip = Triple(sub, pre, obj)
+            tid = trip.save(self._redis)
+
+            h = HtmlSelection(d.id, sub, start, end, tid)
+            h.save(self._redis)
+
+            s = tsel.start + start
+            e = tsel.start + end
+            return d.content[s:e]
+
+
+        if action == 'list':
+            tl = set()
+            for t in self._triples.by_document_id(d.id):
+                sel, sub, pre, obj, start, end = t
+                tl.add((sub, start, end, pre, obj))
+
+            print sorted(tl, reverse=True)
+            return sorted(tl, reverse=True)
+        else:
+            return "Nothing to do"
+
+    triple.exposed = True
+
 config = {'/static': {
             'tools.staticdir.on': True, 
             'tools.staticdir.dir': STATICDIR },
