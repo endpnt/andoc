@@ -46,7 +46,7 @@ class Andoc(object):
         self._redis = Redis()
         self._txt_selections = TextSelections(self._redis)
         self._html_selections = HtmlSelections(self._redis)
-        self._triples = []
+        self._triples = Triples(self._redis)
 
     def default(self):
         default = self._env.get_template('default.html')
@@ -74,8 +74,7 @@ class Andoc(object):
             person_list_tmpl = self._env.get_template('person/list.html')
             persons = []
             for t in self._triples.from_predicate('person'):
-                sel, sub, pre, obj, start, end = t
-                persons.append({'uri':sub, 'name':obj})
+                persons.append({'uri':t.subject, 'name':t.object})
 
             return person_list_tmpl.render(
                     title = 'Persons', 
@@ -89,10 +88,8 @@ class Andoc(object):
             place_list_tmpl = self._env.get_template('place/list.html')
             html = []
             places = []
-            for t in self._triples:
-                sel, sub, pre, obj, start, end = t
-                if pre == "place":
-                    places.append({'uri': sub, 'name': obj})
+            for t in self._triples.from_predicate('place'):
+                places.append({'uri': t.subject, 'name': t.object})
 
             return place_list_tmpl.render(
                     title = 'Places',
@@ -106,10 +103,8 @@ class Andoc(object):
             date_list_tmpl = self._env.get_template('date/list.html')
             html = []
             dates = []
-            for t in self._triples:
-                sel, sub, pre, obj, start, end = t
-                if pre == "date":
-                    dates.append({'uri': sub, 'name': obj})
+            for t in self._triples.from_predicate('date'):
+                dates.append({'uri': t.subject, 'name': t.object})
 
             return date_list_tmpl.render(
                     title = 'Dates',
@@ -179,9 +174,9 @@ class Andoc(object):
                 for pre in ('person','place','date','event'):
                     metalist[pre] = set()
 
-                for sel, sub, pre, obj, start, end in self._triples:
-                    if sel is not None and sel.docid == d.id:
-                        metalist[pre].add(obj) 
+                #for sel, sub, pre, obj, start, end in self._triples:
+                #    if sel is not None and sel.docid == d.id:
+                #        metalist[pre].add(obj) 
 
                 for pre in ('person','place','date','event'):
                     metali = []
