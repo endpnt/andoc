@@ -1,5 +1,11 @@
+from hashlib import sha1
+
 PRE_SET='triple:pre:set:%s'
 OBJ_SET='triple:obj:set:%s'
+
+OBJ_ID='triple:%s:obj:%s:id'
+OBJECTS='triple:%s:objects'
+NEXT_OBJ_ID='next:%s:object:id'
 
 class Triple(object):
     def __init__(self, subject = None, pre = None, object = None):
@@ -13,6 +19,16 @@ class Triple(object):
     
     def save(self, redis):
         if self._valid():
+            # create a hash and uniqid for the object string
+            obj_hash = sha1(self.object).hexdigest()
+            print obj_hash
+            if redis.get(OBJ_ID % (self.pre, obj_hash)) is None:
+                obj_id = redis.incr(NEXT_OBJ_ID % self.pre)
+                if redis.setnx(OBJ_ID % (self.pre,obj_hash), obj_id) == 0:
+                    obj_id = redis.get(OBJ_ID % (self.pre, obj_hash))
+
+                redis.hsetnx(OBJECTS % self.pre, obj_id, self.object)
+
             pipe = redis.pipeline()
             # keep a list of all subjects for this predicate
             pipe.sadd(PRE_SET % self.pre, self.subject)
