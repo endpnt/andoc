@@ -1,4 +1,5 @@
 PRE_SET='triple:pre:set:%s'
+OBJ_SET='triple:obj:set:%s'
 
 class Triple(object):
     def __init__(self, subject = None, pre = None, object = None):
@@ -12,9 +13,22 @@ class Triple(object):
     
     def save(self, redis):
         if self._valid():
+            pipe = redis.pipeline()
             # keep a list of all subjects for this predicate
-            redis.sadd(PRE_SET % self.pre, self.subject)
-            return redis.hsetnx(self.subject, self.pre, self.object)
+            pipe.sadd(PRE_SET % self.pre, self.subject)
+
+            # keep a sorted set of all objects for this predicate
+            # also add score to count how often each object
+            # is mentioned in all documents
+            pipe.zincrby(OBJ_SET % self.pre, self.object, 1)
+
+            # save the full triple has redis hash if not exist
+            pipe.hsetnx(self.subject, self.pre, self.object)
+
+            pre_res, obj_cnt, trip_res = pipe.execute()
+            # TODO error check
+
+            return True
         else:
             return False
 
