@@ -1,11 +1,5 @@
 from hashlib import sha1
-
-PRE_SET='triple:pre:set:%s'
-OBJ_SET='triple:obj:set:%s'
-
-OBJ_ID='triple:%s:obj:%s:id'
-OBJECTS='triple:%s:objects'
-NEXT_OBJ_ID='next:%s:object:id'
+from rediskeys import *
 
 class Triple(object):
     def __init__(self, subject = None, pre = None, object = None):
@@ -22,26 +16,28 @@ class Triple(object):
             # create a hash and uniqid for the object string
             obj_hash = sha1(self.object).hexdigest()
             print obj_hash
-            if redis.get(OBJ_ID % (self.pre, obj_hash)) is None:
+            obj_id = redis.get(OBJ_ID % (self.pre, obj_hash))
+            if obj_id is None:
                 obj_id = redis.incr(NEXT_OBJ_ID % self.pre)
                 if redis.setnx(OBJ_ID % (self.pre,obj_hash), obj_id) == 0:
                     obj_id = redis.get(OBJ_ID % (self.pre, obj_hash))
 
-                redis.hsetnx(OBJECTS % self.pre, obj_id, self.object)
-
             pipe = redis.pipeline()
-            # keep a list of all subjects for this predicate
-            pipe.sadd(PRE_SET % self.pre, self.subject)
+            # store the object by predicate and object id
+            pipe.set(OBJECT_VALUE % (self.pre, obj_id), self.object)
 
-            # keep a sorted set of all objects for this predicate
+            # keep a list of all subjects for this predicate
+            pipe.sadd(PRE_SUBJECTS % self.pre, self.subject)
+
+            # keep a sorted set of all object ids for this predicate
             # also add score to count how often each object
             # is mentioned in all documents
-            pipe.zincrby(OBJ_SET % self.pre, self.object, 1)
+            pipe.zincrby(PRE_OBJECTS % self.pre, obj_id, 1)
 
-            # save the full triple has redis hash if not exist
-            pipe.hsetnx(self.subject, self.pre, self.object)
+            # save the triple as redis hash if not exist
+            pipe.hsetnx(self.subject, self.pre, obj_id)
 
-            pre_res, obj_cnt, trip_res = pipe.execute()
+            val_res, pre_res, obj_cnt, trip_res = pipe.execute()
             # TODO error check
 
             return True
@@ -61,14 +57,15 @@ class Triples(object):
         r = self._redis.hgetall(subject)
         if r == 0:
             return result
-        for pre, object in r.iteritems():
+        for pre, obj_id in r.iteritems():
+            object = self._redis.get(OBJECT_VALUE % (pre, obj_id))
             t = Triple(subject, pre, object)
             result.append(t)
         return result
 
     def from_predicate(self, pre):
         result = []
-        subjects = self._redis.smembers(PRE_SET % pre)
+        subjects = self._redis.smembers(PRE_SUBJECTS % pre)
         if subjects == 0:
             return result
         
