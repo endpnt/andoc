@@ -26,6 +26,8 @@ from triple import *
 from jinja2 import Template, Environment, FileSystemLoader
 from redis import Redis
 
+import igraph
+
 CURDIR = path.dirname(path.abspath(__file__))
 STATICDIR = CURDIR + "/static/"
 TEMPLATES_DIR = CURDIR + "/templates/"
@@ -47,6 +49,7 @@ class Andoc(object):
         self._txt_selections = TextSelections(self._redis)
         self._html_selections = HtmlSelections(self._redis)
         self._triples = Triples(self._redis)
+        self._graph = igraph.Graph()
 
     def default(self):
         default = self._env.get_template('default.html')
@@ -79,6 +82,21 @@ class Andoc(object):
             return person_list_tmpl.render(
                     title = 'Persons', 
                     persons = sorted(persons))
+
+        elif action == 'graph':
+            person_graph_tmpl = self._env.get_template('person/graph.html')
+
+            pntmp = self._redis.hgetall('triple:person:objects')
+            # key needs to be a int
+            person_names = dict( [ (int(k),v) for k,v in pntmp.iteritems()])
+
+            person_map = []
+
+            edges = [ (pidx[f], pidx[t]) for f, t in person_map ]
+            self._graph.add_edges(edges)
+
+            return person_graph_tmpl.render(
+                    title = 'Persons')
         else:
             return ""
     person.exposed = True
