@@ -26,12 +26,14 @@ from triple import *
 from jinja2 import Template, Environment, FileSystemLoader
 from redis import Redis
 
-import igraph
-
 CURDIR = path.dirname(path.abspath(__file__))
 STATICDIR = CURDIR + "/static/"
 TEMPLATES_DIR = CURDIR + "/templates/"
 
+# key pattern for redis
+from rediskeys import *
+
+# cherrypy json helper
 def jsonify_tool_callback(*args, **kwargs):
     response = cherrypy.response
     response.headers['Content-Type'] = 'application/json'
@@ -46,10 +48,11 @@ class Andoc(object):
         self._documents = [1,2,3]
         self._env = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
         self._redis = Redis()
+        # FIXME - no real document support jet
+        self._redis.sadd(ALL_DOCS, *self._documents)
         self._txt_selections = TextSelections(self._redis)
         self._html_selections = HtmlSelections(self._redis)
         self._triples = Triples(self._redis)
-        self._graph = igraph.Graph()
 
     def default(self):
         default = self._env.get_template('default.html')
@@ -85,16 +88,6 @@ class Andoc(object):
 
         elif action == 'graph':
             person_graph_tmpl = self._env.get_template('person/graph.html')
-
-            pntmp = self._redis.hgetall('triple:person:objects')
-            # key needs to be a int
-            person_names = dict( [ (int(k),v) for k,v in pntmp.iteritems()])
-
-            person_map = []
-
-            edges = [ (pidx[f], pidx[t]) for f, t in person_map ]
-            self._graph.add_edges(edges)
-
             return person_graph_tmpl.render(
                     title = 'Persons')
         else:
@@ -386,6 +379,9 @@ class Rest(object):
 
             h = HtmlSelection(d.id, sub, start, end, tid)
             h.save(self._redis)
+
+            # save the object relation to this document
+            d.add_relation(self._redis, pre, obj)
 
             s = tsel.start + start
             e = tsel.start + end
