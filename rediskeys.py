@@ -17,3 +17,23 @@ DOC_RELATED='doc:%s:related:%s'
 
 # set of all document ids
 ALL_DOCS='doc:list'
+
+# counter: layout
+LAYOUT_NEXT_EDGE_ID='layout:next:edge:id'
+LAYOUT_NEXT_VERTICE_ID='layout:next:vertice:id'
+
+# set: all current edge and vertice ids
+LAYOUT_EDGES='layout:edges'
+LAYOUT_VERTICES='layout:vertices'
+
+# string: postion
+LAYOUT_EDGE_POS_X1='layout:edge:%s:pos:x1'
+LAYOUT_EDGE_POS_X2='layout:edge:%s:pos:x2'
+LAYOUT_EDGE_POS_Y1='layout:edge:%s:pos:y1'
+LAYOUT_EDGE_POS_Y2='layout:edge:%s:pos:y2'
+LAYOUT_VERTICE_POS_X='layout:vertice:%s:pos:x'
+LAYOUT_VERTICE_POS_Y='layout:vertice:%s:pos:y'
+# meta data
+LAYOUT_VERTICE_LABEL='layout:vertice:%s:label'
+LAYOUT_VERTICE_OBJ_ID='layout:vertice:%s:obj_id'
+
