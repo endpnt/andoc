@@ -157,30 +157,36 @@ button { cursor: pointer; }
     position: relative;
 }
 
-#persongraph circle {
-    stroke: rgba(255,255,255,0.1);
-    stroke-width: .2em;
-}
-
 #persongraph {
     display: block;
     clear: both;
 }
 
+#persongraph circle {
+    stroke: rgba(255,255,255,0.5);
+    stroke-width: .2em;
+}
+
 #persongraph circle:hover {
-    stroke: rgba(255,255,255,0.2);
+    stroke: rgba(255,255,255,0.8);
     stroke-width: 1em;
-    fill: rgba(255,255,255,0.3);
+    fill: rgba(255,255,255,0.8);
 }
 
-#persongraph path:hover {
-    stroke: rgba(255,255,255,0.2);
-    stroke-width: .5em;
+#persongraph #edges line {
+    stroke: rgba(255,255,255,0.5);
+    stroke-width: .1em;
 }
 
-#persongraph text {
+#persongraph #edges line:hover {
+    stroke: rgba(255,255,255,0.8);
+}
+
+#persongraph #vertices text {
     cursor: pointer;
-    text-shadow: rgba(0, 0, 0, 1) 1px 1px 5px ;
+    text-anchor: middle; 
+    fill: rgba(255,255,255,1);
+    text-shadow: rgba(255, 255, 255, 1) 1px 1px 5px ;
 }
 
 #persongraph text:hover {

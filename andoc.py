@@ -115,12 +115,16 @@ class Andoc(object):
             vertices_by4 = [ a for a in [iter(tmp_vertices)] * 4 ]
             vertices = [ dict({'x': x, 'y': y, 
                                'obj_id': int(float(obj_id)), 
-                               'lable': label }) \
+                               'label': label }) \
                 for x,y,obj_id,label in izip_longest(*vertices_by4) ]
                 
             return person_graph_tmpl.render(
                     edges = edges,
                     vertices = vertices,
+                    width = '800',
+                    height = '600',
+                    xwidth = '400.0000',
+                    xheight = '300.0000',
                     title = 'Persons')
         else:
             return ""

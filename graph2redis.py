@@ -28,11 +28,11 @@ if width < 800:
 if height < 600: 
     height = 600
 
-w = '%d' % (width+400)
-h = '%d' % (height+300)
+w = '%d' % (width)
+h = '%d' % (height)
 
-xw = '%.4f' % ((width+400)/2.0)
-xh = '%.4f' % ((height+300)/2.0)
+xw = '%.4f' % ((width)/2.0)
+xh = '%.4f' % ((height)/2.0)
 
 labels = g.vs.get_attribute_values('label')
 ids = g.vs.get_attribute_values('id')
@@ -135,7 +135,8 @@ for old_vid in old_layout_vertices:
 # and we should not see any empty graph on the UI.
 result = pipe.execute()
 
-print result
+#print result, 
+print w,h, xw, xh
 print "Saved %s edges and %s vertices" % (len(edges), len(vertices))
 
 
