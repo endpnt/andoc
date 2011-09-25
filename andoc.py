@@ -46,7 +46,7 @@ cherrypy.tools.jsonify = cherrypy.Tool('before_finalize',
 class Andoc(object):
 
     def __init__(self):
-        self._documents = [1,2,3]
+        self._documents = [1,2,3,4,5,6,7]
         self._env = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
         self._redis = Redis()
         # FIXME - no real document support jet
