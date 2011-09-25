@@ -52,7 +52,8 @@ print "%s values" % len(object_value)
 # create a relation between objects in the same document
 obj_rel_map = list()
 for obj_ids in doc_obj_map.itervalues():
-    obj_rel_map.extend([ v for v in combinations(obj_ids,2) ])
+    if len(obj_ids) > 0:
+        obj_rel_map.extend([ v for v in combinations(obj_ids,2) ])
 
 print "%s obj rel" % len(obj_rel_map)
 
