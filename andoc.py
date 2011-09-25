@@ -19,6 +19,7 @@ from os import path
 from lxml import html as lxhtml
 from lxml.html import builder as b
 from urlparse import urlsplit
+from itertools import izip_longest
 
 from doc import Document
 from selection import *
@@ -88,7 +89,38 @@ class Andoc(object):
 
         elif action == 'graph':
             person_graph_tmpl = self._env.get_template('person/graph.html')
+            gpipe = self._redis.pipeline()
+            gpipe.sort(
+                LAYOUT_EDGES, 
+                by='nosort',
+                get=[ LAYOUT_EDGE_POS_X1 % '*', 
+                      LAYOUT_EDGE_POS_X2 % '*', 
+                      LAYOUT_EDGE_POS_Y1 % '*',
+                      LAYOUT_EDGE_POS_Y2 % '*'])
+            gpipe.sort(
+                LAYOUT_VERTICES,
+                by='nosort',
+                get=[ LAYOUT_VERTICE_POS_X % '*', 
+                      LAYOUT_VERTICE_POS_Y % '*',
+                      LAYOUT_VERTICE_OBJ_ID % '*',
+                      LAYOUT_VERTICE_LABEL % '*'])
+            tmp_edges, tmp_vertices = gpipe.execute()
+
+            # data comes as one long list from redis,
+            # group both by 4 and create a dict
+            edges_by4 = [ a for a in [iter(tmp_edges)] * 4 ]
+            edges = [ dict({'x1': x1, 'x2': x2, 'y1': y1, 'y2': y2 }) \
+                for x1,x2,y1,y2 in izip_longest(*edges_by4) ]
+            
+            vertices_by4 = [ a for a in [iter(tmp_vertices)] * 4 ]
+            vertices = [ dict({'x': x, 'y': y, 
+                               'obj_id': int(float(obj_id)), 
+                               'lable': label }) \
+                for x,y,obj_id,label in izip_longest(*vertices_by4) ]
+                
             return person_graph_tmpl.render(
+                    edges = edges,
+                    vertices = vertices,
                     title = 'Persons')
         else:
             return ""
