@@ -16,6 +16,7 @@
 
 import cherrypy, simplejson, re, string
 from os import path
+from sys import exit
 from lxml import html as lxhtml
 from lxml.html import builder as b
 from urlparse import urlsplit
@@ -25,7 +26,7 @@ from doc import Document
 from selection import *
 from triple import *
 from jinja2 import Template, Environment, FileSystemLoader
-from redis import Redis
+import redis
 
 CURDIR = path.dirname(path.abspath(__file__))
 STATICDIR = CURDIR + "/static/"
@@ -45,10 +46,10 @@ cherrypy.tools.jsonify = cherrypy.Tool('before_finalize',
 
 class Andoc(object):
 
-    def __init__(self):
+    def __init__(self, redis):
         self._documents = [1,2,3,4,5,6,7]
         self._env = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
-        self._redis = Redis()
+        self._redis = redis
         # FIXME - no real document support jet
         self._redis.sadd(ALL_DOCS, *self._documents)
         self._txt_selections = TextSelections(self._redis)
@@ -118,13 +119,21 @@ class Andoc(object):
                                'label': label }) \
                 for x,y,obj_id,label in izip_longest(*vertices_by4) ]
                 
+            width = int(self._redis.get(LAYOUT_WIDTH))
+            height = int(self._redis.get(LAYOUT_HEIGHT))
+            w = '%d' % (width+100)
+            h = '%d' % (height+50)
+
+            xw = '%.4f' % ((width+100)/2.0)
+            xh = '%.4f' % ((height+50)/2.0)
+
             return person_graph_tmpl.render(
                     edges = edges,
                     vertices = vertices,
-                    width = '800',
-                    height = '600',
-                    xwidth = '400.0000',
-                    xheight = '300.0000',
+                    width = w,
+                    height = h,
+                    xwidth = xw,
+                    xheight = xh,
                     title = 'Persons')
         else:
             return ""
@@ -328,8 +337,8 @@ class Andoc(object):
 
 
 class Rest(object):
-    def __init__(self):
-        self._redis = Redis()
+    def __init__(self, redis):
+        self._redis = redis
         self._txt_selections = TextSelections(self._redis)
         self._html_selections = HtmlSelections(self._redis)
         self._triples = Triples(self._redis)
@@ -448,22 +457,39 @@ class Rest(object):
 
     triple.exposed = True
 
-config = {'/static': {
-            'tools.staticdir.on': True, 
-            'tools.staticdir.dir': STATICDIR },
-          '/data': {
-            'tools.staticdir.on': True,
-            'tools.staticdir.dir': CURDIR + '/data' },
-          '/': {'tools.sessions.on': True}
-         }
-cherrypy.tree.mount(Andoc(), '/', config)
-cherrypy.tree.mount(Rest(), '/rest/', config)
 
-if hasattr(cherrypy.engine, 'block'):
-    # 3.1 syntax
-    cherrypy.engine.start()
-    cherrypy.engine.block()
-else:
-    # 3.0 syntax
-    cherrypy.server.quickstart()
-    cherrypy.engine.start()
+def main():
+    config = {
+        '/static': {
+            'tools.staticdir.on': True, 
+            'tools.staticdir.dir': STATICDIR 
+        },
+        '/data': {
+            'tools.staticdir.on': True,
+            'tools.staticdir.dir': CURDIR + '/data' 
+        },
+        '/': {
+            'tools.sessions.on': True
+        }
+    }
+    _redis = redis.Redis()
+    try:
+        _redis.ping()
+    except redis.exceptions.ConnectionError:
+        print "please start redis"
+        exit(1)
+
+    cherrypy.tree.mount(Andoc(_redis), '/', config)
+    cherrypy.tree.mount(Rest(_redis), '/rest/', config)
+
+    if hasattr(cherrypy.engine, 'block'):
+        # 3.1 syntax
+        cherrypy.engine.start()
+        cherrypy.engine.block()
+    else:
+        # 3.0 syntax
+        cherrypy.server.quickstart()
+        cherrypy.engine.start()
+
+if __name__ == "__main__":
+    main()

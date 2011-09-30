@@ -25,14 +25,8 @@ height = len(g.vs) * 20
 
 if width < 800: 
     width = 800
-if height < 600: 
-    height = 600
-
-w = '%d' % (width)
-h = '%d' % (height)
-
-xw = '%.4f' % ((width)/2.0)
-xh = '%.4f' % ((height)/2.0)
+if height < 400: 
+    height = 400
 
 labels = g.vs.get_attribute_values('label')
 ids = g.vs.get_attribute_values('id')
@@ -97,6 +91,9 @@ pipe = redis.pipeline()
 pipe.delete(LAYOUT_EDGES)
 pipe.delete(LAYOUT_VERTICES)
 
+pipe.set(LAYOUT_WIDTH, width)
+pipe.set(LAYOUT_HEIGHT, height)
+
 # set edges
 for edge in edges:
     edge_id = redis.incr(LAYOUT_NEXT_EDGE_ID)
@@ -136,7 +133,6 @@ for old_vid in old_layout_vertices:
 result = pipe.execute()
 
 #print result, 
-print w,h, xw, xh
 print "Saved %s edges and %s vertices" % (len(edges), len(vertices))
 
 

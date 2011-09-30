@@ -26,6 +26,9 @@ LAYOUT_NEXT_VERTICE_ID='layout:next:vertice:id'
 LAYOUT_EDGES='layout:edges'
 LAYOUT_VERTICES='layout:vertices'
 
+LAYOUT_WIDTH='layout:width'
+LAYOUT_HEIGHT='layout:height'
+
 # string: postion
 LAYOUT_EDGE_POS_X1='layout:edge:%s:pos:x1'
 LAYOUT_EDGE_POS_X2='layout:edge:%s:pos:x2'
