@@ -1,3 +1,19 @@
+# document id counter
+NEXT_DOC_ID='doc:next:id'
+
+# set of all document ids
+ALL_DOCS='doc:list'
+
+# full document path and filename, for PlainTextDocuments only
+DOC_FILENAME='doc:%s:filename'
+
+# document title
+DOC_TITLE='doc:%s:title'
+
+# sorted set with related object id and score 
+# for each document
+DOC_RELATED='doc:%s:related:%s'
+
 # key pattern for redis
 PRE_SUBJECTS='triple:%s:subjects'
 PRE_OBJECTS='triple:%s:objects'
@@ -10,13 +26,6 @@ OBJECT_VALUE='triple:%s:obj:%s:value'
 
 # id counter for objects
 NEXT_OBJ_ID='triple:next:%s:object:id'
-
-# sorted set with related object id and score 
-# for each document
-DOC_RELATED='doc:%s:related:%s'
-
-# set of all document ids
-ALL_DOCS='doc:list'
 
 # counter: layout
 LAYOUT_NEXT_EDGE_ID='layout:next:edge:id'

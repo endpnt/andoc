@@ -15,6 +15,7 @@
 #
 
 import cherrypy, simplejson, re, string
+import redis
 from os import path
 from sys import exit
 from lxml import html as lxhtml
@@ -22,18 +23,17 @@ from lxml.html import builder as b
 from urlparse import urlsplit
 from itertools import izip_longest
 
-from doc import Document
+from doc import *
 from selection import *
 from triple import *
 from jinja2 import Template, Environment, FileSystemLoader
-import redis
+# key pattern for redis
+from rediskeys import *
 
 CURDIR = path.dirname(path.abspath(__file__))
 STATICDIR = CURDIR + "/static/"
 TEMPLATES_DIR = CURDIR + "/templates/"
 
-# key pattern for redis
-from rediskeys import *
 
 # cherrypy json helper
 def jsonify_tool_callback(*args, **kwargs):
