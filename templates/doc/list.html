@@ -1,97 +1,24 @@
 {% extends 'doc.html' %}
 {% block content %}
 <div id="index" class="doclist">
-    <h3>2000</h3>
+    <h3>G1</h3>
     <div id="group-1" class="group">
+        {% for doc in documents %}
         <div class="doc" style="z-index: 1;">
             <div class="meta">
-                <span class="event">5</span>
-                <span class="date">49</span>
-                <span class="person">28</span>
-                <span class="place">23</span>
-                <span class="status">84%</span>
+                <span class="event">{{ doc.event_count|int }}</span>
+                <span class="date">{{ doc.date_count|int }}</span>
+                <span class="person">{{ doc.person_count|int }}</span>
+                <span class="place">{{ doc.place_count|int }}</span>
+                <span class="status">0%</span>
             </div>
             <div class="preview">
-                <a href="/doc/view/1">#1</a>
-                <h3>Steventon: Saturday (January 9).</h3>
-                <p>In the first place I hope you will live twenty-three years longer. Mr. Tom Lefroy's birthday was yesterday, so that you are very near of an age.</p>
+                <a href="/doc/view/{{ doc.id }}">#{{ doc.id }}</a>
+                <h3>{{ doc.title }}</h3>
+                <p></p>
             </div>
         </div>
-        <div class="doc" style="z-index: 2;">
-            <div class="meta">
-                <span class="event">6</span>
-                <span class="date">12</span>
-                <span class="person">120</span>
-                <span class="place">3</span>
-                <span class="status">64%</span>
-            </div>
-            <div class="preview">
-                <a href="/doc/view/2">#2</a>
-            </div>
-        </div>
-        <div class="doc" style="z-index: 3;">
-            <div class="meta">
-                <span class="event">3</span>
-                <span class="date">3</span>
-                <span class="person">8</span>
-                <span class="place">3</span>
-                <span class="status">84%</span>
-            </div>
-            <div class="preview">
-                <a href="/doc/view/3">#3</a>
-            </div>
-        </div>
-        <div class="doc" style="z-index: 4;">
-            <div class="meta">
-                <span class="event">3</span>
-                <span class="date">3</span>
-                <span class="person">8</span>
-                <span class="place">3</span>
-                <span class="status">84%</span>
-            </div>
-            <div class="preview">
-                <a href="/doc/view/4">#4</a>
-            </div>
-        </div>
-    </div>
-    <h3>2001</h3>
-    <div id="group-2" class="group">
-        <div class="doc" style="z-index: 5;">
-            <div class="meta">
-                <span class="event">3</span>
-                <span class="date">3</span>
-                <span class="person">8</span>
-                <span class="place">3</span>
-                <span class="status">84%</span>
-            </div>
-            <div class="preview">
-                <a href="/doc/view/5">#5</a>
-            </div>
-        </div>
-        <div class="doc" style="z-index: 6;">
-            <div class="meta">
-                <span class="event">3</span>
-                <span class="date">3</span>
-                <span class="person">8</span>
-                <span class="place">3</span>
-                <span class="status">84%</span>
-            </div>
-            <div class="preview">
-                <a href="/doc/view/6">#6</a>
-            </div>
-        </div>
-        <div class="doc" style="z-index: 7;">
-            <div class="meta">
-                <span class="event">3</span>
-                <span class="date">3</span>
-                <span class="person">8</span>
-                <span class="place">3</span>
-                <span class="status">84%</span>
-            </div>
-            <div class="preview">
-                <a href="/doc/view/7">#7</a>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
