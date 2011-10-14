@@ -39,9 +39,11 @@ class Document(object):
         if filename and path.exists(filename) and path.isfile(filename):
             self.content = open(filename,'r').read(-1)
             self.length = len(self.content)
+            self.filename = filename
         else:
             self.content = None
             self.length = None
+            self.filename = None
 
     def add(self, docpath, title = None):
         if path.exists(docpath) and path.isfile(docpath):
@@ -52,6 +54,10 @@ class Document(object):
             self._redis.sadd(ALL_DOCS,self.id)
             self._load(self.id)
             self._redis.set(DOC_LENGTH % self.id, self.length)
+
+            return True
+        else:
+            return False
 
 class Documents(object):
     def __init__(self, redis):
