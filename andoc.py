@@ -47,14 +47,12 @@ cherrypy.tools.jsonify = cherrypy.Tool('before_finalize',
 class Andoc(object):
 
     def __init__(self, redis):
-        self._documents = [1,2,3,4,5,6,7]
         self._env = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
         self._redis = redis
-        # FIXME - no real document support jet
-        self._redis.sadd(ALL_DOCS, *self._documents)
         self._txt_selections = TextSelections(self._redis)
         self._html_selections = HtmlSelections(self._redis)
         self._triples = Triples(self._redis)
+        self._docs = Documents(self._redis)
 
     def default(self):
         default = self._env.get_template('default.html')
@@ -119,13 +117,16 @@ class Andoc(object):
                                'label': label }) \
                 for x,y,obj_id,label in izip_longest(*vertices_by4) ]
                 
-            width = int(self._redis.get(LAYOUT_WIDTH))
-            height = int(self._redis.get(LAYOUT_HEIGHT))
-            w = '%d' % (width+100)
-            h = '%d' % (height+50)
+            width = self._redis.get(LAYOUT_WIDTH)
+            height = self._redis.get(LAYOUT_HEIGHT)
+            if width and height:
+                w = '%d' % (int(width) + 100)
+                h = '%d' % (int(height) + 50)
 
-            xw = '%.4f' % ((width+100)/2.0)
-            xh = '%.4f' % ((height+50)/2.0)
+                xw = '%.4f' % ((int(width) + 100) / 2.0)
+                xh = '%.4f' % ((int(height) + 50) / 2.0)
+            else:
+                w,h,xw,xh = 0,0,0.0,0.0
 
             return person_graph_tmpl.render(
                     edges = edges,
@@ -175,11 +176,11 @@ class Andoc(object):
             list_tmpl = self._env.get_template('doc/list.html')
             return list_tmpl.render(
                 title='Document List', 
-                doclist=[1,2,3,4,5,6,7])
+                documents = self._docs.get_list())
 
-        d = Document(id)
+        d = Document(self._redis,id=id)
         if not d.content:
-            return "No such document"
+            raise cherrypy.HTTPError(404, "No such document")
 
         if action == 'raw':
             raw_tmpl = self._env.get_template('doc/raw.html')
@@ -256,7 +257,7 @@ class Andoc(object):
                         content = 'Nothing to render',
                         meta = '')
         else:
-            return "Unknown action"
+            raise cherrypy.HTTPError(400, 'No such action')
 
     doc.exposed = True
 
@@ -266,7 +267,7 @@ class Andoc(object):
         return simplejson.loads(rawbody)
 
     def _render(self, id):
-        d = Document(id)
+        d = Document(self._redis, id = id)
         if not d.content:
             return False
 
@@ -350,7 +351,7 @@ class Rest(object):
 
     @cherrypy.tools.jsonify()
     def selection(self,action,id):
-        d = Document(id)
+        d = Document(self._redis, id = id)
         if not d.content:
             return "No such document"
 
@@ -400,7 +401,7 @@ class Rest(object):
     
     @cherrypy.tools.jsonify()
     def triple(self,action,id):
-        d = Document(id)
+        d = Document(self._redis, id)
         if not d.content:
             return "No such document"
 
@@ -426,7 +427,7 @@ class Rest(object):
             h.save(self._redis)
 
             # save the object relation to this document
-            d.add_relation(self._redis, pre, obj)
+            d.add_relation(pre, obj)
 
             s = tsel.start + start
             e = tsel.start + end
