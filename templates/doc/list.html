@@ -6,10 +6,22 @@
         {% for doc in documents %}
         <div class="doc" style="z-index: 1;">
             <div class="meta">
-                <span class="event">{{ doc.event_count|int }}</span>
-                <span class="date">{{ doc.date_count|int }}</span>
-                <span class="person">{{ doc.person_count|int }}</span>
-                <span class="place">{{ doc.place_count|int }}</span>
+                <span class="event" 
+                    style="border-left: {{ doc.event_count|int }}px solid;">
+                    {{ doc.event_count|int }}
+                </span>
+                <span class="date"
+                    style="border-left: {{ doc.date_count|int }}px solid;">
+                    {{ doc.date_count|int }}
+                </span>
+                <span class="person"
+                    style="border-left: {{ doc.person_count|int }}px solid;">
+                    {{ doc.person_count|int }}
+                </span>
+                <span class="place"
+                    style="border-left: {{ doc.place_count|int }}px solid;">
+                    {{ doc.place_count|int }}
+                </span>
                 <span class="status">0%</span>
             </div>
             <div class="preview">

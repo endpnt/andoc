@@ -418,26 +418,30 @@ button { cursor: pointer; }
 }
 #index.doclist .group .doc .meta .person {
     color: purple;
-    border-left: 10px solid purple;
+    broder-color: purple;
+    border-left: 0px solid;
 }
 
 #index.doclist .group .doc .meta .event {
     color: royalblue;
-    border-left: 16px solid royalblue;
+    border-color: royalblue;
+    border-left: 0px solid;
 }
 
 #index.doclist .group .doc .meta .date {
     color: rgb(200,100,100);
-    border-left: 25px solid rgb(200,100,100);
+    border-color: rgb(200,100,100);
+    border-left: 0px solid;
 }
 
 #index.doclist .group .doc .meta .place{
     color: green; 
-    border-left: 5px solid green;
+    border-color: green;
+    border-left: 0px solid;
 }
 
 #index.doclist .group .doc .meta .status{
-    border-left: 5px solid white;
+    border-left: 0px solid white;
 }
 
 
