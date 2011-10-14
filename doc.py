@@ -1,87 +1,93 @@
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
 from hashlib import sha1
 from rediskeys import *
 from os import path
+from itertools import izip_longest
 
 class Document(object):
-    def __init__(self, id = 0):
-        self.id = int(id)
-        if self.id > 0:
-            filename = 'data/%s.txt' % str(self.id)
-            self.content = open(filename,'r').read()
+    def __init__(self, redis, id=None, name=None):
+        self._redis = redis
+        if id is not None:
+            self.id = int(id)
         else:
-            self.content = False
+            self.id = None
 
-    def add_relation(self, redis, pre, object):
+        if self.id > 0:
+            self._load(self.id)
+
+    def add_relation(self, pre, object):
         obj_hash = sha1(object).hexdigest()
-        print obj_hash
-        obj_id = redis.get(OBJ_ID % (pre, obj_hash))
+        obj_id = self._redis.get(OBJ_ID % (pre, obj_hash))
+        self._redis.zincrby(DOC_RELATED % (self.id, pre), obj_id)
+        self._redis.incr(DOC_RELATED_COUNT % (self.id, pre))
 
-        redis.zincrby(DOC_RELATED % (self.id, pre), obj_id)
+    def _load(self, id):
+        filename = self._redis.get(DOC_FILENAME % int(id))
+        if filename and path.exists(filename) and path.isfile(filename):
+            self.content = open(filename,'r').read(-1)
+            self.length = len(self.content)
+        else:
+            self.content = None
+            self.length = None
+
+    def add(self, docpath, title = None):
+        if path.exists(docpath) and path.isfile(docpath):
+            self.id = int(self._redis.incr(NEXT_DOC_ID))
+            self._redis.set(DOC_FILENAME % self.id, docpath)
+            if title is not None:
+                self._redis.set(DOC_TITLE % self.id, title)
+            self._redis.sadd(ALL_DOCS,self.id)
+            self._load(self.id)
+            self._redis.set(DOC_LENGTH % self.id, self.length)
 
 class Documents(object):
-    def __init__(self, redis, couchdb=None, plaintext=None):
-        
-        if couchdb is not None and plaintext is not None:
-            raise "1"
-
-        if couchdb is None and plaintext is None:
-            raise "2"
-
-        if couchdb:
-            self.my = CouchDbDocmuments(redis,couchdb)
-        elif plaintext:
-            self.my = PlainTextDocuments(redis,plaintext)
-        else:
-            raise "3"
-
-    def add(self):
-        return self.my.add()
-
-    def list(self):
-        return self.my.list(redis)
-
-    def get(self, id):
-        return self.my.get(id)
-
-class PlainTextDocuments(object):
-    def __init__(self, redis, dir):
+    def __init__(self, redis):
         self._redis = redis
-        self._dir = dir
 
-    def add(self, docpath):
-        if path.exists(docpath):
-            if path.isfile(docpath):
-                docid = int(self._redis.incr(NEXT_DOC_ID))
-                filename = path.abspath(docpath)
-                self._redis.set(DOC_FILENAME % (docid, filename))
-                self._redis.sadd(ALL_DOCS % docid)
-            elif path.isdir(docpath):
-                pass
-
-        return 1
-
-    def list(self):
+    def get_all(self):
         return self._redis.smembers(ALL_DOCS)
 
-    def get(self, id):
-        filename = self._redis.get(DOC_FILENAME % int(id))
-        if path.exist(filename) and path.isfile(filename):
-            return open(filename).read(-1)
-        else:
-            return False
+    def get_list(self):
+        pipe = self._redis.pipeline()
+        pipe.sort(
+            ALL_DOCS, 
+            by = 'nosort',
+            get = [ 
+                '#',  # that is the id itself
+                DOC_TITLE % '*', 
+                DOC_DATE % '*',
+                DOC_RELATED_COUNT % ('*','event'),
+                DOC_RELATED_COUNT % ('*','place'),
+                DOC_RELATED_COUNT % ('*','person'),
+                DOC_RELATED_COUNT % ('*','date'),
+            ]
+        )
+        res = pipe.execute()
+        print res[0]
+        res_by = [ a for a in [iter(res[0])] * 7 ]
+        docs = [ dict({'id': id, 
+                       'title': title, 
+                       'date': date,
+                       'event_count': evc,
+                       'place_count': plc,
+                       'person_count': pec,
+                       'date_count': dac
+                      }) \
+            for id,title,date,evc,plc,pec,dac in izip_longest(*res_by) ]
 
-class CouchDbDocuments(object):
-    def __init__(self, redis, couch):
-        self._redis = redis
-        self._couch = couch
-
-
-    def add(self):
-        pass
-
-    def list(self):
-        pass
-
-    def get(self, id):
-        pass
+        print docs
+        return docs
 
