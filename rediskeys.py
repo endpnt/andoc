@@ -4,11 +4,22 @@ NEXT_DOC_ID='doc:next:id'
 # set of all document ids
 ALL_DOCS='doc:list'
 
-# full document path and filename, for PlainTextDocuments only
+# full document path and filename
 DOC_FILENAME='doc:%s:filename'
+
+# char length of the document
+DOC_LENGTH='doc:%s:length'
 
 # document title
 DOC_TITLE='doc:%s:title'
+
+# doc date
+DOC_DATE='doc:%s:date'
+
+DOC_NAME_BY_ID='doc:name:by:id:%s'
+DOC_ID_BY_NAME='doc:id:by:name:%s'
+
+DOC_RELATED_COUNT='doc:%s:relcnt:%s'
 
 # sorted set with related object id and score 
 # for each document
