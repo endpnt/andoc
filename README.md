@@ -54,7 +54,7 @@ and enrich the content:
     following, perhaps <Caroline[p]> will go to the <Ashe ball[e]> with me, though
     I dare say she will not.
 
-You can try this with the current prototype as well, using a fancy web user interface.
+Here is the example in andoc:
 
 ![doc struc](https://github.com/endpnt/andoc/raw/master/data/doc-struc.png "doc struc")
 
