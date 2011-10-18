@@ -2,11 +2,9 @@
 
 A collaborative web tool to enrich content.
 
-    $ easy_install lxml simplejson cherrypy jinja2 redis
-    $ python andoc.py
-    $ open 'http://localhost:8080'
+## Install and usage ##
 
-Please use a **recent** version of Chrome or Firefox.
+See INSTALL.md
 
 ## Idea ##
 
@@ -57,8 +55,8 @@ and enrich the content:
     I dare say she will not.
 
 You can try this with the current prototype as well, using a fancy web user interface.
-It will for example enable you to see the events with associated relations on a timeline:
-![event timeline](https://github.com/endpnt/andoc/raw/master/data/event-timeline.jpg "enriched event timeline preview")
+
+![doc struc](https://github.com/endpnt/andoc/raw/master/data/doc-struc.png "doc struc")
 
 Andoc would then know about the existence of:
 
@@ -97,6 +95,10 @@ processing, andoc aims to provide automatic processing of the data as well.
 
 The afford to enrich the documents, should lead to a direct improvement 
 for the users:
+
+It will for example enable the user to see the events with associated relations 
+on a timeline: 
+![event timeline](https://github.com/endpnt/andoc/raw/master/data/event-timeline.jpg "enriched event timeline preview")
 
 * Provide additional information about person, places and events
   from sources like wikipedia along the data. Context matters.
