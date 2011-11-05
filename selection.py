@@ -51,7 +51,6 @@ class TextSelection(object):
             pipe.lpush(TXT_SELECTIONS % \
                 self.docid, selection_id)
             result = pipe.execute()
-            print result
             return selection_id
         else:
             return False
@@ -94,7 +93,6 @@ class HtmlSelection(object):
             pipe.lpush(HTML_SELECTIONS % \
                 self.docid, selection_id)
             result = pipe.execute()
-            print result
             return selection_id
         else:
             return False
