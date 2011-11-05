@@ -14,9 +14,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import redis
 from email import message_from_file
 from os import path, walk
 from sys import exit, argv
+from doc import *
+from selection import *
+from rediskeys import *
 
 def usage():
     print "import raw emails from maildir"
@@ -38,6 +42,7 @@ def main():
         print "Error: no files found"
         exit(1)
 
+    r = redis.Redis()
     for email in valid_emails:
         msg = message_from_file(open(email))
 
@@ -57,16 +62,28 @@ def main():
             selections = []
             for k,v in msg.items():
                 selection_start = destfile.tell()
-                destfile.write('%s: %s\n' % (k,v))
+                # web browser counts one char for \r\n
+                destfile.write('%s: %s\n' % (
+                    k.replace('\r','').strip(),
+                    v.replace('\r','').strip())
+                    )
                 selection_end = destfile.tell()
-                selections.append((selection_start, selection_end, k))
+                selections.append((selection_start, selection_end,
+                    'http://www.w3.org/1999/xhtml/#div'))
 
             destfile.write('\n')
             bstart = destfile.tell()
-            destfile.write(plaintext)
+            destfile.write(plaintext.replace('\r','').strip())
             bend = destfile.tell()
             destfile.close()
-            selections.append((bstart, bend, 'body'))
+            selections.append((bstart, bend, 
+                'http://www.w3.org/1999/xhtml/#div'))
+            
+            doc = Document(r)
+            if doc.add('data/%s.txt' % path.basename(email)):
+                for start,end,ref in selections:
+                    text_selection = TextSelection(doc.id, start, end+1, ref)
+                    text_selection.save(r)
 
 if __name__ == "__main__":
     if len(argv) < 2:
