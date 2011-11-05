@@ -118,10 +118,23 @@ function drawSelections(selections) {
     var hldoc = document.getElementById('hldoc');
     var hlparent = hldoc.parentNode;
     var newhl = backuphldoc.cloneNode(true);
+
+/*
+
+    var pat1 = /&[A-Z]{2,6};/gi;
+    var pat2 = /&#[0-9]{1,5};/g;
+    var matches = Array()
+    while((result = pat1.exec(backuphldoc.innerHTML)) != null) {
+        result.index
+        result[0].toString().length
+    }
+
+*/
     hlparent.removeChild(hldoc);
     hlparent.appendChild(newhl);
     console.log('hl reset');
     console.log(newhl);
+
 
     if (newhl !== null) {
         for (var i = 0 ; i < selections.length; i++) {

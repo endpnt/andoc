@@ -39,8 +39,12 @@
             <th>Marked</th>
         </tr>
         <tr>
-            <td><pre id="doc">{{ doc.content }}</pre></td>
-            <td><pre id="hldoc">{{ doc.content }}</pre></td>
+<!-- 
+FIXME HACK avoid selection range problems with
+html escaping. offset needs to be fixed in JS.
+-->
+            <td><pre id="doc">{{ doc.content|replace('<','[')|replace('>',']') }}</pre></td>
+            <td><pre id="hldoc">{{ doc.content|replace('<','[')|replace('>',']') }}</pre></td>
         </tr>
         </tbody>
     </table>
