@@ -100,6 +100,9 @@ $(document).ready(function() {
 });
 
 function markSelection(node, start, end, selclass) {
+    console.log("node:" + node);
+    console.log("start:" + start + " end:" + end);
+    console.log("selection class: " + selclass);
     var span = document.createElement("span");
     span.className = selclass;
     var range = document.createRange();
