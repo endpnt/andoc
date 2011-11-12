@@ -16,11 +16,13 @@
 
 import redis
 from email import message_from_file
+from email.utils import mktime_tz, parsedate_tz
 from os import path, walk
 from sys import exit, argv
 from doc import *
 from selection import *
 from rediskeys import *
+from triple import *
 
 def usage():
     print "import raw emails from maildir"
@@ -57,9 +59,11 @@ def main():
                 has_plaintext = True
                 plaintext = msg.get_payload(decode=True)
 
+
         if has_plaintext:
             destfile = open('data/%s.txt' % path.basename(email), 'w')
             selections = []
+            dates = []
             for k,v in msg.items():
                 selection_start = destfile.tell()
                 # web browser counts one char for \r\n
@@ -71,19 +75,43 @@ def main():
                 selections.append((selection_start, selection_end,
                     'http://www.w3.org/1999/xhtml/#div'))
 
+                if k == 'Date':
+                    ts = mktime_tz(parsedate_tz(v))
+                    ts_start = len('%s: ' %k )
+                    ts_end = selection_end - selection_start
+                    dates.append(
+                        (selection_start, selection_end, ts, ts_start, ts_end))
+
             destfile.write('\n')
             bstart = destfile.tell()
             destfile.write(plaintext.replace('\r','').strip())
             bend = destfile.tell()
             destfile.close()
-            selections.append((bstart, bend, 
+            selections.append((bstart, bend+1, 
                 'http://www.w3.org/1999/xhtml/#div'))
             
             doc = Document(r)
             if doc.add('data/%s.txt' % path.basename(email)):
                 for start,end,ref in selections:
-                    text_selection = TextSelection(doc.id, start, end+1, ref)
+                    text_selection = TextSelection(doc.id, start, end, ref)
                     text_selection.save(r)
+
+                for s_start, s_end, ts, ts_start, ts_end in dates:
+                    pre = 'date'
+                    sub = '%s%s#%s.s%se%s' %  (
+                        'http://127.0.0.1:8080/doc/struc/',
+                         doc.id, 'div', s_start, s_end)
+                    # http://127.0.0.1:8080/doc/struc/1#div.s1086e1124/t6e37
+                    trsub = '%s/t%se%s' % (sub, ts_start, ts_end)
+                    trip = Triple(sub, pre, str(ts))
+                    tid = trip.save(r)
+
+                    h = HtmlSelection(doc.id, sub, ts_start, ts_end, tid)
+                    h.save(r)
+
+                   # save the object relation to this document
+                    doc.add_relation(pre, str(ts))
+
 
 if __name__ == "__main__":
     if len(argv) < 2:
