@@ -6,6 +6,10 @@
         {% for doc in documents %}
         <div class="doc" style="z-index: 1;">
             <div class="meta">
+                <span class="id">
+                    <a href="/doc/view/{{ doc.id }}">#{{ doc.id }}</a>
+                </span>
+                <span class="status">0%</span>
                 <span class="event" 
                     style="border-left: {{ doc.event_count|int }}px solid;">
                     {{ doc.event_count|int }}
@@ -22,12 +26,6 @@
                     style="border-left: {{ doc.place_count|int }}px solid;">
                     {{ doc.place_count|int }}
                 </span>
-                <span class="status">0%</span>
-            </div>
-            <div class="preview">
-                <a href="/doc/view/{{ doc.id }}">#{{ doc.id }}</a>
-                <h3>{{ doc.title }}</h3>
-                <p></p>
             </div>
         </div>
         {% endfor %}

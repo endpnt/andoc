@@ -354,14 +354,15 @@ button { cursor: pointer; }
     background-color: rgba(0,0,0,0.8);
     display: block;
     float: left;
-    width: 80px;
-    height: 100px;
     border: 1px solid rgba(255,255,255,0.5);
     border-top-right-radius: .8em;
     -webkit-box-shadow: .2em .2em .5em black;
     -moz-box-shadow: .2em .2em .5em black;
     box-shadow: .2em .2em .5em black;
-    margin: 0 -35px 5px 0px;
+    margin: 0 5px 5px 0px;
+    padding: .2em;
+    min-width: 100px;
+    max-width: 250px;
     -webkit-transition: .4s ease-in-out;
     -moz-transition: .4s ease-in-out;
     transition: .4s ease-in-out;
@@ -369,6 +370,7 @@ button { cursor: pointer; }
     z-index: -1;
 }
 
+/*
 #index.doclist .group .doc:hover {
     border: 1px solid rgba(255,255,255,1.0);
     -webkit-box-shadow: .5em .5em 1em black;
@@ -380,6 +382,8 @@ button { cursor: pointer; }
     background-color: rgba(0,0,0,1.0);
 }
 
+*/
+
 #index.doclist .group .doc .meta {
     -webkit-transition: .4s ease-in-out;
     -moz-transition: .4s ease-in-out;
@@ -387,34 +391,17 @@ button { cursor: pointer; }
     position: relative;
     top: 0;
     left: 0;
-    width: 40px;
-    height: 100px;
     text-align: right;
     float: left;
 }
 #index.doclist .group .doc:hover .meta {
 }
 
-#index.doclist .group .doc .preview {
-    -webkit-transition: .4s ease-in-out;
-    -moz-transition: .4s ease-in-out;
-    transition: .4s ease-in-out;
-    position: relative;
-    top:0; left: 40px;
-    width: 320px;
-    height: 100px;
-    float: left;
-    visibility: hidden;
-}
-#index.doclist .group .doc:hover .preview {
-    visibility: visible;
-}
-#index.doclist .group .doc .preview * {
-    display: inline;
-}
-
-#index.doclist .group .doc .meta span{
+#index.doclist .group .doc .meta span {
     display: block;
+    float: left;
+    margin: 0 .3em;
+    padding: .1em;
 }
 #index.doclist .group .doc .meta .person {
     color: purple;
@@ -423,6 +410,7 @@ button { cursor: pointer; }
 }
 
 #index.doclist .group .doc .meta .event {
+    clear: left;
     color: royalblue;
     border-color: royalblue;
     border-left: 0px solid;
